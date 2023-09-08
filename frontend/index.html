@@ -8,10 +8,12 @@
     <style>
         .center-screen {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             min-height: 100vh;
+            gap: 20px;
         }
 
         body {
@@ -44,24 +46,21 @@
     <div class="center-screen">
         <input class="input" type="text" id="input" placeholder="Text input">
         <button onclick="analyzeSentiment()" class="button is-primary">Submit</button>
+        <div id="result"></div>
+        <div id="error"></div>
     </div>
-    <div id="result"></div>
-    <div id="error"></div>
+
     <script>
         function analyzeSentiment() {
             var inputText = document.getElementById('input').value;
-            var url = 'https://api.example.com/sentiment-analysis';
+            var encodedValue = encodeURIComponent(inputText);
+            var url = 'http://localhost:8080/v1/models/spellcheck?text=' + encodedValue;
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ text: inputText })
-            })
+
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('result').innerText = 'Sentiment: ' + data.sentiment;
+                    document.getElementById('result').innerText = 'Sentiment: ' + data;
                     document.getElementById('error').innerText = '';
                 })
                 .catch(error => {

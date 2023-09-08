@@ -12,6 +12,6 @@ def get_models():
     return {"hello": "world"}
 
 
-@models_router.post("/spellcheck")
+@models_router.get("/spellcheck")
 def post_spellcheck(text: str) -> List[str]:
     return spelling.spell_correct([text])  # FIXME: Use proper model
