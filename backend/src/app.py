@@ -1,9 +1,22 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.routers.ml_models import models_router
 
 app = FastAPI(version="1.0.0")
+
+# origins = [
+    # "http://localhost",
+    # "http://localhost:8080/*",
+# ]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/", include_in_schema=False)
