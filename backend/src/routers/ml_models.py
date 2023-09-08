@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from typing import List
 
 from src.ml_scripts import spelling
 from src.models import SpellCorrectRequest
@@ -12,5 +13,5 @@ def get_models():
 
 
 @models_router.post("/spellcheck")
-def post_spellcheck(text: SpellCorrectRequest) -> str:
-    return spelling.spell_corect(text.input)
+def post_spellcheck(text: str) -> List[str]:
+    return spelling.spell_correct([text])  # FIXME: Use proper model
