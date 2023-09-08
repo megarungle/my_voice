@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>my_voice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <style>
+        .center-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-family: Impact, sans-serif;
+            color: #CE5937;
+        }
+
+        #input {
+            width: 300px;
+            padding: 10px;
+        }
+
+        #result {
+            margin-top: 10px;
+        }
+
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center-screen">
+        <input class="input" type="text" id="input" placeholder="Text input">
+        <button onclick="analyzeSentiment()" class="button is-primary">Submit</button>
+    </div>
+    <div id="result"></div>
+    <div id="error"></div>
+    <script>
+        function analyzeSentiment() {
+            var inputText = document.getElementById('input').value;
+            var url = 'https://api.example.com/sentiment-analysis';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: inputText })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = 'Sentiment: ' + data.sentiment;
+                    document.getElementById('error').innerText = '';
+                })
+                .catch(error => {
+                    document.getElementById('result').innerText = '';
+                    document.getElementById('error').innerText = 'Error: ' + error.message;
+                });
+        }
+    </script>
+</body>
+
+</html>
