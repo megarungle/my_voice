@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.responses import RedirectResponse
 
-from src.routers.models import models_router
+from src.routers.ml_models import models_router
 
 app = FastAPI(version="1.0.0")
 
