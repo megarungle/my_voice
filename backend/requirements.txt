@@ -2,3 +2,7 @@ fastapi==0.103.0
 pydantic-settings==2.0.3
 uvicorn==0.23.2
 black==23.7.0
+transformers
+torch 
+torchvision 
+torchaudio
