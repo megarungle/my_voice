@@ -1,3 +1,7 @@
+import torch
+
+from typing import List
+
 from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
@@ -5,15 +9,17 @@ MAX_INPUT = 256
 
 tokenizer = T5TokenizerFast.from_pretrained(MODEL_NAME)
 model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
+if torch.cuda.is_available():
+    device = torch.device("cuda")
+else:
+    device = torch.device("cpu")
 
 
-def spell_corect(input_sequences: str):
-    print("running")
+def spell_correct(input_sequences: List[str]) -> List[str]:
     task_prefix = "Spell correct: "
     if type(input_sequences) != list:
         input_sequences = [input_sequences]
 
-    print("running")
     encoded = tokenizer(
         [task_prefix + sequence for sequence in input_sequences],
         padding="longest",
@@ -22,14 +28,15 @@ def spell_corect(input_sequences: str):
         return_tensors="pt",
     )
 
-    print("running")
+    predicts = model.generate(**encoded.to(device))
+    res = tokenizer.batch_decode(predicts, skip_special_tokens=True)
+    res = [result.lower() for result in res]
 
-    predicts = model.generate(encoded)
-
-    print("running")
-
-    return tokenizer.batch_decode(predicts, skip_special_tokens=True)
+    return res
 
 
 if __name__ == "__main__":
-    print(spell_corect("сеглдыя хорош ден"))
+    input_sequences = ["сеглдыя хорош ден", "когд а вы прдет к нам в госи"]
+    res = spell_correct(input_sequences)
+    print(res)
+    assert res == ["сегодня хорош день.", "когда вы придете к нам в гости?"]

@@ -1,8 +1,7 @@
-from pydantic import BaseModel, Field
+from typing import List
+
+from pydantic import BaseModel
 
 
 class SpellCorrectRequest(BaseModel):
-    input: str = Field(..., example="сеглдыя хорош ден")  # min, max len
-
-    class Config:
-        json_schema_extra = {"example": {"input": "сеглдыя хорош ден"}}
+    input: str
