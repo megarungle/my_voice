@@ -2,10 +2,10 @@
 import sys
 sys.path.insert(0, "../")
 
-from my_voice.backend.src.core import Core
+from backend.src.core import Core
 #from django.views.generic.base import RedirectView
 from typing import List
-from my_voice.backend.src.structs import InferStatus, Data
+from backend.src.structs import InferStatus, Data
 
 # class Infer(RedirectView):
 class Infer():
@@ -21,11 +21,11 @@ class Infer():
 
 if __name__ == "__main__":
     infer = Infer()
-    answers = ["создание раб.групп для контрол", "сократить дублирование", "травмы и работать над ней",
-        "убедить работника что его жиз", "улучшать качество работы", "уменьшение бюрократии",
-        "упростить бюрократич. нагрузку", "участие в жизни работника"]
+    answers = ["open-mindedness.", "perseverance;", "responsability?",
+        "отмкрытмость!,", "innovation", "it",
+        "it skills", "ответссственность."]
     counts = [1, 2, 1, 3, 1, 2, 5, 3]
-    question = "Вопрос 7. Что должны сделать Лидеры безопасности, чтобы снизить травматизм?"
+    question = "Name 3 most important skills that you expect you will need in your future job."
     data = []
     for i in range(0, len(answers)):
         d = Data(answers[i], counts[i])

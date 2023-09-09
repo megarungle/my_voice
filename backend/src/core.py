@@ -1,8 +1,10 @@
 from typing import List, Optional, Tuple
 
-from my_voice.backend.src.interface.runner import Runner
-from my_voice.backend.src.runners import recovery, cluster, sentiment
-from my_voice.backend.src.structs import InferStatus, Data
+from backend.src.interface.runner import Runner
+from backend.src.runners import recovery, cluster, sentiment
+from backend.src.structs import InferStatus, Data
+from backend.src.utils import translator_util
+
 
 # TODO: change print()-logging to loguru.logger logic
 class Core:
@@ -11,7 +13,7 @@ class Core:
     runner_recovery: Runner = None
     runner_cluster: Runner = None
     runner_sentiment: Runner = None
-    
+
     def __init__(self) -> None:
         if self._initialized:
             return
@@ -34,7 +36,10 @@ class Core:
     def infer(self, data, question) -> Tuple[InferStatus, Optional[List[Data]]]:
         print("Infer request start")
         # TODO: db logic with hash
-        # TODO: preprocessing if needed
+        question = translator_util.translate_question_if_needed(question)
+        data = translator_util.translate_data_if_needed(data)
+        print(question)
+        print(data)
         status, data = self.runner_recovery.infer(data, question)
         if status is not InferStatus.status_ok:
             return status
