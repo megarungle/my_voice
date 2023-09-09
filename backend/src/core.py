@@ -39,10 +39,17 @@ class Core:
             self._initialized = True
 
 
-    def infer(self, data, question) -> Tuple[InferStatus, Optional[List[Data]]]:
+    def infer(self, _input) -> Tuple[InferStatus, Optional[List[Data]]]:
         print("Infer request start")
         # TODO: db logic with hash
-        # TODO: preprocessing if needed
+
+        # Convert input to internal data structure
+        question = _input['question']
+        data = []
+        for answer in _input['answers']:
+            data.append(Data.fromJson(answer))
+
+        # Infer
         status, data = self.runner_recovery.infer(data, question)
         if status is not InferStatus.status_ok:
             return status
