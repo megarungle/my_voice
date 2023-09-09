@@ -1,4 +1,5 @@
-FROM python:3.10
+# TODO: Add model.safetensors into docker image
+FROM anibali/pytorch:2.0.1-nocuda-ubuntu22.04 
 
 WORKDIR /app
 ADD /backend /app
