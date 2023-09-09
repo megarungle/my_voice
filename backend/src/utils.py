@@ -1,31 +1,42 @@
 from typing import Dict, List
-from collections import namedtuple, defaultdict
 from pathlib import Path
+from enum import Enum
+from dataclasses import dataclass
 
 import json
 
 
-Answer = namedtuple("Answer", ["answer", "sentiment"])
+@dataclass
+class DatasetAnswer:
+    theme: str
+    answer: str
+    sentiment: str
 
-# TODO: Better data structs
-def parse_dataset_json(json_dataset: Path) -> Dict[str, Dict[str, List[str]]]:
-    with open(json_dataset, 'r', encoding='utf-8-sig') as file:
+
+class DatasetSentiments(Enum):
+    negatives = "negatives"
+    neutrals = "neutrals"
+    positives = "positives"
+
+
+def parse_dataset_json(
+    json_dataset: Path,
+) -> Dict[DatasetSentiments, List[DatasetAnswer]]:
+    """Read json dataset and returns all individual answer by sentiment group"""
+    with open(json_dataset, "r", encoding="utf-8-sig") as file:
         data = json.load(file)
 
-    sorted_by_themes: Dict[str, List[Answer]]= defaultdict(list)
-    for item in data["answers"]:
-        sorted_by_themes[item["cluster"]].append(Answer(item["answer"], item["sentiment"]))
-
     sentiments = {
-        "positives": {},
-        "negatives": {},
-        "neutrals": {}
+        DatasetSentiments.positives.value: [],
+        DatasetSentiments.negatives.value: [],
+        DatasetSentiments.neutrals.value: [],
     }
 
-    for theme, answers in sorted_by_themes.items():
-        for answer in answers:
-            if theme in sentiments[answer.sentiment].keys():
-                sentiments[answer.sentiment][theme]["answers"].append(answer.answer)
-            else:
-                sentiments[answer.sentiment][theme] = {"answers": [answer.answer]}
+    for i in data["answers"]:
+        sentiments[i["sentiment"]].append(
+            DatasetAnswer(
+                theme=i["cluster"], answer=i["answer"], sentiment=i["sentiment"]
+            )
+        )
+
     return sentiments
