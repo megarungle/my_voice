@@ -9,7 +9,7 @@
 
 ## Деплой
 
-Для деплоя запусти:
+Заполни секреты в `infrastructure/prometheus/alertmanager.yml` и запусти:
 
 ```bash
   docker-compose up
