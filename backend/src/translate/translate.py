@@ -1,8 +1,11 @@
 import argostranslate.package
 import argostranslate.translate
+import enchant
 
 
 def translateEnToRu(string):
+    d = enchant.Dict("en_US")
+
     from_code = "en"
     to_code = "ru"
 
