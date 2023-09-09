@@ -8,7 +8,9 @@ class Sentiment(Enum):
 
 class InferStatus(Enum):
     status_ok = 0
-    status_error = -1
+    status_error_init = -1
+    status_error_prepare = -2
+    status_error_infer = -3
 
 @dataclass
 class Data:
@@ -19,9 +21,5 @@ class Data:
     corrected: str = ''
     
     @classmethod
-    def fromJson(cls, dict):
-        return cls(
-            dict["user_id"], dict["login"],
-            dict["first_name"], dict["second_name"], dict["middle_name"],
-            dict["algs_id"], dict["bound_ids"]
-        )
+    def fromJson(cls):
+        return cls()
