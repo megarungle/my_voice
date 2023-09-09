@@ -53,8 +53,6 @@ class RunnerCluster(runner.Runner):
                 if j in indices_cluster:
                     cluster_answers.append(data[j].corrected)
             cluster_name = self._get_cluster_name(cluster_answers)
-            print(cluster_answers, cluster_name)
-            print(indices_cluster)
             for j in range(0, len(data)):
                 if j in indices_cluster:
                     data[j].cluster = cluster_name
