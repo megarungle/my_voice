@@ -28,8 +28,16 @@ class Core:
             print("WARNING: runner recovery didn't initialize!")
             # Умышленно выставляем True, чтобы в конце статус core был False
             self._initialized = True
+
         self.runner_cluster = cluster.RunnerCluster()
-        self.runner_sentiment = sentiment.RunnerSentiment()
+
+        status, runner = sentiment.RunnerSentiment()
+        if status is InferStatus.status_ok:
+            self.runner_sentiment = runner
+        else:
+            print("WARNING: runner sentiment didn't initialize!")
+            self._initialized = True
+
 
     def infer(self, data, question) -> Tuple[InferStatus, Optional[List[Data]]]:
         print("Infer request start")
@@ -39,5 +47,7 @@ class Core:
         if status is not InferStatus.status_ok:
             return status
         # TODO: runner cluster
-        # TODO: runner sentiment
+        status, data = self.runner_sentiment.infer(data)
+        if status is not InferStatus.status_ok:
+            return status
         return (status, data)
