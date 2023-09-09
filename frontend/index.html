@@ -90,7 +90,7 @@
             lineHeight: 0.8,
             xWordPadding: 0,
             yWordPadding: 0,
-            font: "sans-serif"
+            font: "lato"
         }
 
         words = words.map(function (word) {
@@ -100,7 +100,7 @@
             }
         })
 
-        words.push({"word": theme, "freq": 20});
+        words.push({"word": theme, "freq": 25});
 
         words.sort(function (a, b) {
             return -1 * (a.freq - b.freq);
@@ -121,7 +121,8 @@
             let wordContainer = document.createElement("div");
             wordContainer.style.position = "absolute";
             wordContainer.style.fontSize = freq + "px";
-            if (freq == 20) {
+            wordContainer.style.color = 'white';
+            if (freq === 25) {
                 wordContainer.style.fontWeight = "bold";
             }
             wordContainer.style.lineHeight = config.lineHeight;
