@@ -12,5 +12,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag hackathon-api:$(date +%s)
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build and export
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        tags: hackathon-api:latest
+        outputs: type=docker,dest=/tmp/myimage.tar
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: hackathon-api
+        path: /tmp/myimage.tar
