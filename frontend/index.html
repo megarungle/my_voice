@@ -21,7 +21,6 @@
   <button class="btn">Upload</button>
 </form>
 
-<div class="logo fire">Горящая лодка</div>
 
 <div class="page-wrapper">
   <div class="left-panel-wrapper">
@@ -72,9 +71,10 @@
     function logFile (event) {
         let str = event.target.result;
         let json = JSON.parse(str);
+        console.log(json);
 
-        async function postData(url = "http://localhost:8080/v1/models/test", data = {}) {
-          const response = await fetch(url, {
+        async function postData(data) {
+          const response = await fetch("http://localhost:8080/v1/models/infer", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -84,7 +84,7 @@
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
-            data: JSON.stringify(data)
+            body: JSON.stringify(data)
           });
           return await response.json();
         }

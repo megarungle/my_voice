@@ -16,15 +16,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name='static')
-
-
-@app.get("/", include_in_schema=False)
-def render_html():
-    with open(FRONTEND_DIR / "index.html", "r") as file:
-        html_context = file.read()
-    return HTMLResponse(content=html_context, status_code=200)
-
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR, html=True), name='static')
 
 v1_router = APIRouter()
 v1_router.include_router(models_router, prefix="/models", tags=["models"])
