@@ -71,12 +71,11 @@
     function logFile (event) {
         let str = event.target.result;
         let json = JSON.parse(str);
-        console.log(json);
 
         async function postData(data = {}) {
           const response = await fetch("http://localhost:8080/v1/models/infer", {
             method: "POST",
-            mode: "no-cors",
+            mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
@@ -90,7 +89,6 @@
         }
 
         postData(json).then((data) => {
-            console.log(data);
             let i = 0
             for (let key in data) {
                 let blocks = data[key];
