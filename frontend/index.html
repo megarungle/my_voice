@@ -72,11 +72,11 @@
     function logFile (event) {
         let str = event.target.result;
         let json = JSON.parse(str);
-
-        async function postData(url = "http://localhost:8080/v1/models/infer", data = {}) {
-          const response = await fetch(url, {
+        console.log(json);
+        async function postData(data = {}) {
+          const response = await fetch("http://localhost:8080/v1/models/infer", {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
@@ -84,13 +84,12 @@
             },
             redirect: "follow",
             referrerPolicy: "no-referrer",
-            data: JSON.stringify(data)
+            body: JSON.stringify(data)
           });
           return await response.json();
         }
 
-        postData(str).then((data) => {
-            console.log(data);
+        postData(json).then((data) => {
             let i = 0
             for (let key in data) {
                 let blocks = data[key];
