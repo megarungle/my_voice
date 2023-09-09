@@ -25,16 +25,26 @@
 
 ## Деплой
 
-Заполни секреты в `infrastructure/prometheus/alertmanager.yml` и запусти:
-
-```bash
-  docker-compose up
-```
-
+Список сервисов:
 - Frontend: [localhost:80](localhost:80)
 - Backend (behind nginx load balancer): [localhost:8080](localhost:8080)
 - Prometheus: [localhost:9090](localhost:9090)
 - Grafana: [localhost:3000](localhost:3000)
+
+### С мониторингом
+Заполни секреты в `infrastructure/prometheus/alertmanager.yml` и запусти:
+
+```bash
+  docker-compose -f docker-compose.yaml up 
+```
+
+### Без мониторинга
+Отсутствуют Grafana, Prometheus
+
+```bash
+  docker-compose -f docker-compose-no-monitoring.yaml up
+```
+
 
 ## Инфраструктура
 

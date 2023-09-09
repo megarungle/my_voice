@@ -72,13 +72,12 @@ services:
       - ./frontend/index.html:/usr/local/apache2/htdocs/index.html
 
   hackathon-api:
-    #image: hackathon-api
-    #build:
-      #context: ./Dockerfile
-    image: httpd:2.4
+    image: hackathon-api
+    build:
+      context: ./Dockerfile
     restart: unless-stopped
     deploy:
-      replicas: 2
-    expose: 
-    - 80
+      replicas: 1
+    ports:
+      - 80:5000
 
