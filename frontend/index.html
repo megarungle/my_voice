@@ -73,10 +73,10 @@
         let json = JSON.parse(str);
         console.log(json);
 
-        async function postData(data) {
+        async function postData(data = {}) {
           const response = await fetch("http://localhost:8080/v1/models/infer", {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
@@ -89,7 +89,7 @@
           return await response.json();
         }
 
-        postData(str).then((data) => {
+        postData(json).then((data) => {
             console.log(data);
             let i = 0
             for (let key in data) {
