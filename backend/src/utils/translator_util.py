@@ -6,8 +6,7 @@ import argostranslate.translate
 
 from src.structs import Data
 
-PATTERN = "^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-'\"\:\;\=\<\>]+$"
-
+PATTERN = '^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-\'\"\:\;\=\<\>]+$'
 
 def translate_question_if_needed(question: str) -> str:
     try:
