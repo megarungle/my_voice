@@ -9,7 +9,7 @@ from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
 MAX_INPUT = 256
-PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?]+\ *"
+PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?\«\»]+\ *"
 
 class RunnerRecovery(runner.Runner):
     tokenizer: T5TokenizerFast
