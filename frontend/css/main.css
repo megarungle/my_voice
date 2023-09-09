@@ -36,7 +36,7 @@
 .content-wrapper {
     /*width: 250px;*/
     width: 33%;
-    padding: 0 30px;
+    padding: 40px 30px;
 }
 
 body {
@@ -69,4 +69,17 @@ h1 {
 .word-cloud {
     height: 8vh;
     margin: 0 auto;
+}
+
+.logo {
+    width: 100%;
+    position: absolute;
+    font-family: "lato", sans-serif;
+    background: -webkit-linear-gradient(white, #38495a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 25pt;
 }

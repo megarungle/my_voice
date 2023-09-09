@@ -15,23 +15,30 @@
 <div id="stars"></div>
 <div id="stars2"></div>
 <div id="stars3"></div>
+<form class="upload-btn-wrapper" id="upload">
+  <label for="file">File</label>
+  <input type="file" id="file" accept=".json"/>
+  <button class="btn">Upload</button>
+</form>
+
+<div class="logo fire">Горящая лодка</div>
 
 <div class="page-wrapper">
   <div class="left-panel-wrapper">
     <div class="left-panel">
-      <div id="block-positive"><div class="block-title fire">Positive</div></div>
+      <div id="block-positive"><div class="block-title">Positive</div></div>
     </div>
   </div>
 
   <div class="content-wrapper">
     <div class="content">
-        <div id="block-neutral"><div class="block-title fire">Neutral</div></div>
+        <div id="block-neutral"><div class="block-title">Neutral</div></div>
     </div>
   </div>
 
   <div class="right-panel-wrapper">
     <div class="right-panel">
-        <div id="block-negative"><div class="block-title fire">Negative</div></div>
+        <div id="block-negative"><div class="block-title">Negative</div></div>
     </div>
   </div>
 </div>
@@ -43,35 +50,61 @@
 <!--</footer>-->
 
 <script>
-    async function postData(url = "http://localhost:8080/v1/models/test", data = {}) {
-      const response = await fetch(url, {
-        method: "GET",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-      });
-      return await response.json();
+    let form = document.querySelector('#upload');
+    let file = document.querySelector('#file');
+
+    form.addEventListener('submit', handleSubmit);
+
+    function handleSubmit (event) {
+        // Stop the form from reloading the page
+        event.preventDefault();
+
+        // If there's no file, do nothing
+        if (!file.value.length) return;
+
+        // Create a new FileReader() object
+        let reader = new FileReader();
+        // Read the file
+        reader.readAsText(file.files[0]);
+        reader.onload = logFile;
     }
 
-    postData().then((data) => {
-        console.log(data);
-        let i = 0
-        for (let key in data) {
-            let blocks = data[key];
-            blocks.forEach(function (block) {
-                let theme = block['theme'];
-                let answers = block['answers'];
-                createBlock(i, key);
-                createCloud(i, answers, theme);
-                i++;
-            })
+    function logFile (event) {
+        let str = event.target.result;
+        let json = JSON.parse(str);
+
+        async function postData(url = "http://localhost:8080/v1/models/test", data = {}) {
+          const response = await fetch(url, {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            data: JSON.stringify(data)
+          });
+          return await response.json();
         }
-    });
+
+        postData(str).then((data) => {
+            console.log(data);
+            let i = 0
+            for (let key in data) {
+                let blocks = data[key];
+                blocks.forEach(function (block) {
+                    let theme = block['theme'];
+                    let answers = block['answers'];
+                    createBlock(i, key);
+                    createCloud(i, answers, theme);
+                    i++;
+                })
+            }
+        });
+    }
+
 
     function createBlock(id, sentiment) {
         let block = document.getElementById('block-' + sentiment);
@@ -121,9 +154,10 @@
             let wordContainer = document.createElement("div");
             wordContainer.style.position = "absolute";
             wordContainer.style.fontSize = freq + "px";
-            wordContainer.style.color = 'white';
+            wordContainer.style.color = "#99B4D7FF";
             if (freq === 25) {
                 wordContainer.style.fontWeight = "bold";
+                wordContainer.style.color = '#AEBBD2FF';
             }
             wordContainer.style.lineHeight = config.lineHeight;
             wordContainer.style.transform = "translateX(0%) translateY(0%)";
