@@ -21,13 +21,14 @@ class RunnerRecovery(runner.Runner):
             cls.device = torch.device("cpu")
         # Temporary force CPU due to problem with CUDA
         cls.device = torch.device("cpu")
-        print(f"Recovery initialization on {cls.device} device")
+        print(f"Recovery initialization on {cls.device} device...")
         try:
             cls.tokenizer = T5TokenizerFast.from_pretrained(MODEL_NAME)
             cls.model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
         except Exception as exc:
             print(f"Recovery runner initialization failed: {exc}")
             return InferStatus.status_error_init
+        print("Done")
         return (InferStatus.status_ok, super(RunnerRecovery, cls).__new__(cls))
 
     def infer(self, data, question) -> Tuple[InferStatus, List[Data]]:
