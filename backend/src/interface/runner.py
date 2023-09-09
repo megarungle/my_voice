@@ -1,5 +1,5 @@
 from typing import List, Tuple
-from my_voice.backend.src.structs import Data, InferStatus
+from backend.src.structs import Data, InferStatus
 
 import abc
 

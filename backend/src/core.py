@@ -1,8 +1,10 @@
 from typing import List, Optional, Tuple
 
-from my_voice.backend.src.interface.runner import Runner
-from my_voice.backend.src.runners import recovery, cluster, sentiment
-from my_voice.backend.src.structs import InferStatus, Data
+from backend.src.interface.runner import Runner
+from backend.src.runners import recovery, cluster, sentiment
+from backend.src.structs import InferStatus, Data
+from backend.src.utils import translator_util
+
 
 # TODO: change print()-logging to loguru.logger logic
 class Core:
@@ -48,6 +50,9 @@ class Core:
         data = []
         for answer in _input['answers']:
             data.append(Data.fromJson(answer))
+
+        question = translator_util.translate_question_if_needed(question)
+        data = translator_util.translate_data_if_needed(data)
 
         # Infer
         status, data = self.runner_recovery.infer(data, question)
