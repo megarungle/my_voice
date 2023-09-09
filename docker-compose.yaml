@@ -1,5 +1,10 @@
 version: "3"
+
+volumes:
+  prom_data: {}
+
 services:
+
   nginx:
     image: nginx
     restart: unless-stopped
@@ -10,6 +15,7 @@ services:
       - "8080:80"
     depends_on:
       - hackathon-api
+
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:0.10.0
     restart: unless-stopped
@@ -19,6 +25,7 @@ services:
     command: -nginx.scrape-uri=http://nginx:80/nginx_status
     depends_on:
       - nginx
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -29,7 +36,20 @@ services:
     restart: unless-stopped
     volumes:
       - ./infrastructure/prometheus:/etc/prometheus
+      - ./infrastructure/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml
       - prom_data:/prometheus
+
+  alertmanager:
+    container_name: alertmanager
+    hostname: alertmanager
+    image: prom/alertmanager
+    volumes:
+      - ./infrastructure/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    expose:
+      - 9093
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -43,12 +63,14 @@ services:
       - ./infrastructure/grafana:/etc/grafana/provisioning/datasources
       - ./infrastructure/grafana/dashboards:/var/lib/grafana/dashboards
       - ./infrastructure/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/main.yaml
+
   hackathon-frontend:
     image: httpd:2.4
     ports:
       - 80:80
     volumes:
       - ./frontend/index.html:/usr/local/apache2/htdocs/index.html
+
   hackathon-api:
     #image: hackathon-api
     #build:
@@ -60,5 +82,3 @@ services:
     expose: 
     - 80
 
-volumes:
-  prom_data:

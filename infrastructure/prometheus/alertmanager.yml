@@ -1,0 +1,13 @@
+---
+global:
+  resolve_timeout: 1m
+
+route:
+  receiver: "telegram"
+
+receivers:
+  - name: "telegram"
+    telegram_configs:
+      - bot_token: ""
+        send_resolved: true
+        chat_id: 
