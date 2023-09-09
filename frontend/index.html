@@ -75,14 +75,9 @@
         async function postData(data = {}) {
           const response = await fetch("http://localhost:8080/v1/models/infer", {
             method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
             headers: {
               "Content-Type": "application/json",
             },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
             body: JSON.stringify(data)
           });
           return await response.json();
