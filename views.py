@@ -2,10 +2,10 @@
 import sys
 sys.path.insert(0, "../")
 
-from my_voice.backend.src.core import Core
+from backend.src.core import Core
 #from django.views.generic.base import RedirectView
 from typing import List
-from my_voice.backend.src.structs import InferStatus, Data
+from backend.src.structs import InferStatus, Data
 
 # class Infer(RedirectView):
 class Infer():

@@ -1,7 +1,7 @@
 from typing import List, Tuple, Optional
 
-from my_voice.backend.src.interface import runner
-from my_voice.backend.src.structs import InferStatus, Data
+from backend.src.interface import runner
+from backend.src.structs import InferStatus, Data
 
 from transformers import pipeline
 import torch
