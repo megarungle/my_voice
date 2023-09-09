@@ -32,7 +32,7 @@ class RunnerSentiment(runner.Runner):
     def infer(self, data) -> Tuple[InferStatus, List[Data]]:
         final_status = InferStatus.status_ok
         for i in range(0, len(data)):
-            status, out = self._get_sentiment(data[i].answer)
+            status, out = self._get_sentiment(data[i].corrected)
             if status is not InferStatus.status_ok:
                 # Не добавляем ничего в результат, но продолжаем обработку
                 final_status = status

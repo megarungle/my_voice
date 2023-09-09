@@ -31,7 +31,12 @@ class Core:
             # Умышленно выставляем True, чтобы в конце статус core был False
             self._initialized = True
 
-        self.runner_cluster = cluster.RunnerCluster()
+        status, runner = cluster.RunnerCluster()
+        if status is InferStatus.status_ok:
+            self.runner_cluster = runner
+        else:
+            print("WARNING: runner cluster didn't initialize!")
+            self._initialized = True
 
         status, runner = sentiment.RunnerSentiment()
         if status is InferStatus.status_ok:
@@ -58,7 +63,9 @@ class Core:
         status, data = self.runner_recovery.infer(data, question)
         if status is not InferStatus.status_ok:
             return status
-        # TODO: runner cluster
+        status, data = self.runner_cluster.infer(data, question)
+        if status is not InferStatus.status_ok:
+            return status
         status, data = self.runner_sentiment.infer(data)
         if status is not InferStatus.status_ok:
             return status
