@@ -37,8 +37,8 @@ def post_sentiment(text: SentimentRequest) -> SentimentResult:
 
 
 @models_router.post("/infer")
-def post_infer(_input: InferRequest) -> Any:  # TODO: Use model instead of Any
-    answers = []
+def post_infer(_input: InferRequest) -> Themes:
+    infer_res: List[Data] = []
 
     _input = _input.model_dump()
 
@@ -50,12 +50,40 @@ def post_infer(_input: InferRequest) -> Any:  # TODO: Use model instead of Any
             if status is InferStatus.status_ok:
                 for answer in data:
                     # answer.data_print()
-                    answers.append(answer)
+                    infer_res.append(answer)
             return "new_url"
 
     infer = Infer()
     infer.get_redirect_url(_input)
-    return answers
+
+    answers = {
+        "positive": defaultdict(list),
+        "negative": defaultdict(list),
+        "neutral": defaultdict(list),
+    }
+    for data in infer_res:
+        answers[data.sentiment][data.cluster].append(data.answer)
+
+    return Themes(
+        positive=[
+            InferInputAnswer(
+                theme=theme,
+                answers=answers,
+            )
+            for theme, answers in answers["positive"].items()
+        ],
+        negative=[
+            InferInputAnswer(
+                theme=theme,
+                answers=answers,
+            )
+            for theme, answers in answers["negative"].items()
+        ],
+        neutral=[
+            InferInputAnswer(theme=theme, answers=answers)
+            for theme, answers in answers["neutral"].items()
+        ],
+    )
 
 
 @models_router.get("/test")
