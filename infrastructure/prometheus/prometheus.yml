@@ -25,17 +25,18 @@ scrape_configs:
   scrape_timeout: 10s
   metrics_path: /metrics
   scheme: http
-  dns_sd_configs:
-    - names:
-        - nginx-exporter  # goes here
-      type: A
-      port: 9113
-# - job_name: nginx
+  static_configs:
+  - targets:
+    - nginx-exporter:9113
+# https://github.com/korfuri/django-prometheus
+# - job_name: hackathon-api
   # honor_timestamps: true
   # scrape_interval: 15s
   # scrape_timeout: 10s
   # metrics_path: /metrics
   # scheme: http
-  # static_configs:
-  # - targets:
-    # - nginx-exporter:9113
+  # dns_sd_configs:
+    # - names:
+        # - hackathon-api  # goes here
+      # type: A
+      # port: 9113
