@@ -1,9 +1,9 @@
 from typing import List, Optional, Tuple
 
-from backend.src.interface.runner import Runner
-from backend.src.runners import recovery, cluster, sentiment
-from backend.src.structs import InferStatus, Data
-from backend.src.utils import translator_util
+from src.interface.runner import Runner
+from src.runners import recovery, cluster, sentiment
+from src.structs import InferStatus, Data
+from src.utils import translator_util
 
 
 # TODO: change print()-logging to loguru.logger logic
@@ -13,7 +13,7 @@ class Core:
     runner_recovery: Runner = None
     runner_cluster: Runner = None
     runner_sentiment: Runner = None
-    
+
     def __init__(self) -> None:
         if self._initialized:
             return
@@ -45,15 +45,14 @@ class Core:
             print("WARNING: runner sentiment didn't initialize!")
             self._initialized = True
 
-
     def infer(self, _input) -> Tuple[InferStatus, Optional[List[Data]]]:
         print("Infer request start")
         # TODO: db logic with hash
 
         # Convert input to internal data structure
-        question = _input['question']
+        question = _input["question"]
         data = []
-        for answer in _input['answers']:
+        for answer in _input["answers"]:
             data.append(Data.fromJson(answer))
 
         question = translator_util.translate_question_if_needed(question)

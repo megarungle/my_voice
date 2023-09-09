@@ -1,7 +1,8 @@
 from typing import List, Tuple
-from backend.src.structs import Data, InferStatus
+from src.structs import Data, InferStatus
 
 import abc
+
 
 class Runner(abc.ABC):
     @abc.abstractmethod
