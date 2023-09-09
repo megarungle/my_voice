@@ -74,6 +74,12 @@ function logFile(event) {
   postData(json).then((data) => {
     let progressBar = document.querySelectorAll("#progress-bar")[0];
     progressBar.setAttribute("value", "100");
+
+    let clouds = document.querySelectorAll(".word-cloud");
+    clouds.forEach((cloud) => {
+      cloud.remove();
+    });
+
     let i = 0;
     for (let key in data) {
       let blocks = data[key];
