@@ -4,9 +4,9 @@ from typing import List
 import argostranslate.package
 import argostranslate.translate
 
-from backend.src.structs import Data
+from src.structs import Data
 
-PATTERN = '^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-\'\"\:\;\=\<\>]+$'
+PATTERN = "^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-'\"\:\;\=\<\>]+$"
 
 
 def translate_question_if_needed(question: str) -> str:
@@ -47,19 +47,19 @@ def translate_en_to_ru(string: str):
     available_packages = argostranslate.package.get_available_packages()
     package_to_install = next(
         filter(
-            lambda x: x.from_code == from_code and x.to_code == to_code, available_packages
+            lambda x: x.from_code == from_code and x.to_code == to_code,
+            available_packages,
         )
     )
     if package_to_install not in argostranslate.package.get_installed_packages():
         argostranslate.package.install_from_path(package_to_install.download())
 
-    return argostranslate.translate.translate(
-        string, from_code, to_code
-    )
+    return argostranslate.translate.translate(string, from_code, to_code)
 
 
 if __name__ == "__main__":
     print(translate_en_to_ru("netherlands"))
-    v = re.sub(r"[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?]+\ *", " ",
-               "ответственности?")
+    v = re.sub(
+        r"[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?]+\ *", " ", "ответственности?"
+    )
     print(re.sub(" +", " ", v))

@@ -1,12 +1,13 @@
 from typing import List, Tuple, Optional
 
-from backend.src.interface import runner
-from backend.src.structs import InferStatus, Data
+from src.interface import runner
+from src.structs import InferStatus, Data
 
 from transformers import pipeline
 import torch
 
 MODEL_NAME = "seara/rubert-tiny2-russian-sentiment"
+
 
 class RunnerSentiment(runner.Runner):
     model: None
@@ -28,7 +29,6 @@ class RunnerSentiment(runner.Runner):
         print("Done")
         return (InferStatus.status_ok, super(RunnerSentiment, cls).__new__(cls))
 
-
     def infer(self, data) -> Tuple[InferStatus, List[Data]]:
         final_status = InferStatus.status_ok
         for i in range(0, len(data)):
@@ -48,4 +48,4 @@ class RunnerSentiment(runner.Runner):
             print(f"ERROR: sentiment runner infer failed: {exc}")
             return InferStatus.status_error_infer
         # Output
-        return (InferStatus.status_ok, res[0]['label'])
+        return (InferStatus.status_ok, res[0]["label"])

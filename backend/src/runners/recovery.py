@@ -1,7 +1,7 @@
 from typing import List, Tuple, Optional
 
-from backend.src.interface import runner
-from backend.src.structs import InferStatus, Data
+from src.interface import runner
+from src.structs import InferStatus, Data
 
 import re
 import torch
@@ -9,7 +9,8 @@ from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
 MAX_INPUT = 256
-PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?\«\»]+\ *"
+PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:'\",<.>/?]+\ *"
+
 
 class RunnerRecovery(runner.Runner):
     tokenizer: T5TokenizerFast
@@ -50,10 +51,10 @@ class RunnerRecovery(runner.Runner):
         try:
             encoded = self.tokenizer(
                 [f"Spell correct: {input_phrase}"],
-                padding = "longest",
-                max_length = MAX_INPUT,
-                truncation = True,
-                return_tensors = "pt",
+                padding="longest",
+                max_length=MAX_INPUT,
+                truncation=True,
+                return_tensors="pt",
             )
         except Exception as exc:
             print(f"ERROR: recovery runner input preparing failed: {exc}")

@@ -1,18 +1,25 @@
 from pathlib import Path
 from typing import Any, Dict, List
-
+from collections import defaultdict
 
 from fastapi import APIRouter
 
-# from backend.src.ml_scripts import spelling, sentiment
+from src.ml_scripts import spelling, sentiment
 from src.models import (
     SentimentResult,
     SpellCorrectRequest,
     SentimentRequest,
+    InferRequest,
+    InferOutputAnswer,
+    InferInputAnswer,
     Themes,
-    Answer,
+    InferOutput,
 )
-from src.utils import parse_dataset_json
+from src.utils.dataset_parser import parse_dataset_json
+from src.core import Core
+from src.structs import InferStatus, Data
+
+from typing import List
 
 
 models_router = APIRouter()
@@ -28,7 +35,27 @@ def post_sentiment(text: SentimentRequest) -> SentimentResult:
     res = sentiment.get_sentiment(text.input)
     return SentimentResult(label=res.label, score=res.score)
 
-from collections import defaultdict
+
+@models_router.post("/infer")
+def post_infer(_input: InferRequest) -> Any:  # TODO: Use model instead of Any
+    answers = []
+
+    _input = _input.model_dump()
+
+    class Infer:
+        def get_redirect_url(self, _input):
+            core = Core()
+            print("Waiting for infer request")
+            status, data = core.infer(_input)
+            if status is InferStatus.status_ok:
+                for answer in data:
+                    # answer.data_print()
+                    answers.append(answer)
+            return "new_url"
+
+    infer = Infer()
+    infer.get_redirect_url(_input)
+    return answers
 
 
 @models_router.get("/test")
@@ -49,21 +76,21 @@ def get_test() -> Themes:
 
     return Themes(
         positive=[
-            Answer(
+            InferInputAnswer(
                 theme=theme,
                 answers=answers,
             )
             for theme, answers in answers["positives"].items()
         ],
         negative=[
-            Answer(
+            InferInputAnswer(
                 theme=theme,
                 answers=answers,
             )
             for theme, answers in answers["negatives"].items()
         ],
         neutral=[
-            Answer(theme=theme, answers=answers)
+            InferInputAnswer(theme=theme, answers=answers)
             for theme, answers in answers["neutrals"].items()
         ],
     )
