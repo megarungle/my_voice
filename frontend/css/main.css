@@ -8,31 +8,68 @@
             gap: 20px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-        }
+.page-wrapper {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    min-height: 85vh;
+    gap: 20px;
+}
 
-        h1 {
-            font-family: Impact, sans-serif;
-            color: #CE5937;
-        }
+.block-title {
+    font-size: 18pt;
+    font-weight: bold;
+}
 
-        #input {
-            width: 300px;
-            padding: 10px;
-        }
+.left-panel-wrapper {
+    width: 33%;
+}
 
-        #result {
-            margin-top: 10px;
-        }
+.right-panel-wrapper {
+    width: 33%;
+}
 
-        #error {
-            color: red;
-            margin-top: 10px;
-        }
+.content-wrapper {
+    /*width: 250px;*/
+    width: 33%;
+    padding: 0 30px;
+}
 
-        #word-cloud {
-            height: 30vh;
-            width: 30vw;
-            margin: 0 auto;
-        }
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-family: Impact, sans-serif;
+    color: #CE5937;
+}
+
+#input {
+    width: 300px;
+    padding: 10px;
+}
+
+#result {
+    margin-top: 10px;
+}
+
+#error {
+    color: red;
+    margin-top: 10px;
+}
+
+#word-cloud {
+    height: 10vh;
+    width: 10vw;
+    margin: 0 auto;
+}
+
+.result {
+    margin-top: 10px;
+}
+
+.word-cloud {
+    height: 10vh;
+    width: 10vw;
+    margin: 0 auto;
+}
