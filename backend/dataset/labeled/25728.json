@@ -3,88 +3,88 @@
     "id": 25728,
     "answers": [
         {
-            "answer": "новым знкоствам.",
+            "answer": "1. новым знкоствам.",
             "count": 1,
             "cluster": "за новые знакомства",
             "sentiment": "neutrals",
-            "corrected": "новые знакомства"
+            "corrected": "1 новым знакомствам"
         },
         {
             "answer": "за нетворкинг",
             "count": 1,
-            "cluster": "контакты",
+            "cluster": "окружение специалистов определенной сферы",
             "sentiment": "positives",
             "corrected": "за окружение специалистов определенной сферы"
         },
         {
             "answer": "за новые знакомства",
             "count": 1,
-            "cluster": "новые знакомства",
+            "cluster": "за новые знакомства",
             "sentiment": "neutrals"
         },
         {
             "answer": "контакты",
             "count": 3,
-            "cluster": "контакты",
+            "cluster": "окружение специалистов определенной сферы",
             "sentiment": "neutrals"
         },
         {
             "answer": "нетворкинг",
             "count": 1,
-            "cluster": "контакты",
+            "cluster": "окружение специалистов определенной сферы",
             "sentiment": "positives",
             "corrected": "окружение специалистов определенной сферы"
         },
         {
             "answer": "1. опыт",
             "count": 1,
-            "cluster": "опыт",
+            "cluster": "за опыт",
             "sentiment": "positives",
-            "corrected": "опыт"
+            "corrected": "1 опыт"
         },
         {
-            "answer": "интересным встречам.",
+            "answer": "2. интересным встречам.",
             "count": 1,
-            "cluster": "новые знакомства",
+            "cluster": "2 интересным встречам",
             "sentiment": "positives",
-            "corrected": "интересным встречам"
+            "corrected": "2 интересным встречам"
         },
         {
-            "answer": "найти наставника",
+            "answer": "2. найти наставника",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "neutrals",
-            "corrected": "найти наставника"
+            "corrected": "2 найти наставника"
         },
         {
             "answer": "за лучшего наставника-маэстро!",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "positives",
             "corrected": "за лучшего наставника маэстро"
         },
         {
             "answer": "за наставников",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "neutrals"
         },
         {
             "answer": "найденному наконец наставнику",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "positives"
         },
         {
             "answer": "наставник",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "neutrals"
         },
         {
             "answer": "наставники",
             "count": 1,
-            "cluster": "наставник",
+            "cluster": "наставники",
             "sentiment": "neutrals"
         },
         {
@@ -120,7 +120,7 @@
         {
             "answer": "за вдохновляющие вечера",
             "count": 1,
-            "cluster": "вдохновение",
+            "cluster": "за вдохновляющие вечера",
             "sentiment": "positives"
         },
         {
@@ -139,26 +139,26 @@
         {
             "answer": "восторг",
             "count": 1,
-            "cluster": "восторг",
+            "cluster": "кайф",
             "sentiment": "positives"
         },
         {
             "answer": "драйв",
             "count": 1,
-            "cluster": "восторг",
+            "cluster": "драйв",
             "sentiment": "positives"
         },
         {
             "answer": "за драйв и энергетику!",
             "count": 1,
-            "cluster": "восторг",
+            "cluster": "драйв",
             "sentiment": "positives",
             "corrected": "за драйв и энергетику"
         },
         {
             "answer": "энергетика",
             "count": 1,
-            "cluster": "восторг",
+            "cluster": "драйв",
             "sentiment": "neutrals"
         },
         {
@@ -182,19 +182,19 @@
         {
             "answer": "друзья",
             "count": 1,
-            "cluster": "дружба",
+            "cluster": "друзья",
             "sentiment": "positives"
         },
         {
             "answer": "друзьям",
             "count": 1,
-            "cluster": "дружба",
+            "cluster": "друзья",
             "sentiment": "positives"
         },
         {
             "answer": "за верность дружбе",
             "count": 1,
-            "cluster": "дружба",
+            "cluster": "за верность дружбе",
             "sentiment": "positives"
         },
         {
