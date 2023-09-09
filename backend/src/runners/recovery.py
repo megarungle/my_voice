@@ -6,6 +6,10 @@ from src.structs import InferStatus, Data
 import re
 import torch
 from transformers import AutoModelForSeq2SeqLM, T5TokenizerFast
+import nltk
+import string
+from nltk.stem.snowball import RussianStemmer
+import time
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
 MAX_INPUT = 256
@@ -34,23 +38,56 @@ class RunnerRecovery(runner.Runner):
         print("Done")
         return (InferStatus.status_ok, super(RunnerRecovery, cls).__new__(cls))
 
+    def _preprocess_nltk(self, data):
+        text = data
+        # токенизируем текст и удаляем пунктуацию
+        tokens = nltk.word_tokenize(text)
+        tokens = [word for word in tokens if word.isalnum()]
+
+        # исправляем орфографические ошибки
+        corrected_tokens = []
+        for token in tokens:
+            stem_l = self.stemmer.stem(token)
+            corrected_tokens.append(stem_l)
+        return " ".join(corrected_tokens)
+
+
     def infer(self, data, question) -> Tuple[InferStatus, List[Data]]:
         final_status = InferStatus.status_ok
+
+        # загружаем русский язык для NLTK
+        nltk.download('punkt', quiet=True)
+        nltk.download('averaged_perceptron_tagger', quiet=True)
+        nltk.download('tagsets', quiet=True)
+        nltk.download('words', quiet=True)
+        nltk.download('maxent_ne_chunker', quiet=True)
+        nltk.download('stopwords', quiet=True)
+        self.stemmer = RussianStemmer()
+        big_input = len(data) > MAX_INPUT
+        corrected = []
         for i in range(0, len(data)):
             punctuation_corrected = self._correct_punctuation(data[i].answer)
-            status, out = self._correct_spelling(punctuation_corrected)
-            if status is not InferStatus.status_ok:
-                # Не добавляем ничего в результат, но продолжаем обработку
-                final_status = status
-                continue
-            data[i].corrected = self._correct_punctuation(out)
+            corrected.append(punctuation_corrected)
+
+        out = []
+        if big_input:
+            print("Big input, use nltk preprocessing")
+            for i in range(0, len(corrected)):
+                out.append(self._preprocess_nltk(corrected[i]))
+        else:
+            print("Use urukhan preprocessing")
+            final_status, out = self._correct_spelling(corrected)
+
+        for i in range(0, len(data)):
+            data[i].corrected = self._correct_punctuation(out[i])
+
         return [final_status, data]
 
-    def _correct_spelling(self, input_phrase: str) -> Tuple[InferStatus, Optional[str]]:
+    def _correct_spelling(self, input_sequences: List[str]) -> Tuple[InferStatus, Optional[List[str]]]:
         # Prepare input
         try:
             encoded = self.tokenizer(
-                [f"Spell correct: {input_phrase}"],
+                ["Spell correct: " + sequence for sequence in input_sequences],
                 padding="longest",
                 max_length=MAX_INPUT,
                 truncation=True,
@@ -67,7 +104,9 @@ class RunnerRecovery(runner.Runner):
             print(f"ERROR: recovery runner infer failed: {exc}")
             return InferStatus.status_error_infer
         # Output
-        return (InferStatus.status_ok, res[0].lower())
+        for i in range(len(res)):
+            res[i] = res[i].lower()
+        return (InferStatus.status_ok, res)
 
     def _correct_punctuation(self, input_phrase) -> str:
         try:

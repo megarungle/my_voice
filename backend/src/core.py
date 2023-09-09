@@ -4,6 +4,7 @@ from src.interface.runner import Runner
 from src.runners import recovery, cluster, sentiment
 from src.structs import InferStatus, Data
 from src.utils import translator_util
+import time
 
 
 # TODO: change print()-logging to loguru.logger logic
@@ -57,17 +58,35 @@ class Core:
         for answer in _input["answers"]:
             data.append(Data.fromJson(answer))
 
+        print("Preprocessing...")
+        start = time.monotonic()
         question = translator_util.translate_question_if_needed(question)
         data = translator_util.translate_data_if_needed(data)
+        end = time.monotonic() - start
+        print("Time: {:>.4f}".format(end) + " seconds.")
 
         # Infer
+        print("Recovering data...")
+        start = time.monotonic()
         status, data = self.runner_recovery.infer(data, question)
         if status is not InferStatus.status_ok:
             return status
+        end = time.monotonic() - start
+        print("Time: {:>.4f}".format(end) + " seconds.")
+
+        print("Clustering data...")
+        start = time.monotonic()
         status, data = self.runner_cluster.infer(data, question)
         if status is not InferStatus.status_ok:
             return status
+        end = time.monotonic() - start
+        print("Time: {:>.4f}".format(end) + " seconds.")
+
+        print("Sentiment data...")
+        start = time.monotonic()
         status, data = self.runner_sentiment.infer(data)
         if status is not InferStatus.status_ok:
             return status
+        end = time.monotonic() - start
+        print("Time: {:>.4f}".format(end) + " seconds.")
         return (status, data)
