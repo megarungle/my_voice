@@ -7,5 +7,5 @@ class RunnerSentiment(runner.Runner):
     def __init__(self) -> None:
         print("Sentiment initialization")
 
-    def infer(self, data) -> Tuple[InferStatus, List[Data]]:
+    def infer(self, data, question) -> Tuple[InferStatus, List[Data]]:
         pass
