@@ -21,5 +21,13 @@ class Data:
     corrected: str = ''
     
     @classmethod
-    def fromJson(cls):
-        return cls()
+    def fromJson(cls, answer):
+        return cls(answer['answer'], answer['count'])
+
+    def data_print(self):
+        print("Answer: ", self.answer)
+        print("Count: ", self.count)
+        print("Cluster: ", self.cluster)
+        print("Sentiment: ", self.sentiment)
+        print("Corrected: ", self.corrected)
+        print("============================")
