@@ -1,8 +1,12 @@
 from fastapi import FastAPI, APIRouter
-from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from pathlib import Path
 
 from src.routers.ml_models import models_router
+
+FRONTEND_DIR = Path(__file__).parent.resolve().parents[1] / "frontend"
 
 app = FastAPI(version="1.0.0")
 app.add_middleware(
@@ -12,11 +16,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name='static')
 
 
 @app.get("/", include_in_schema=False)
-def __redirect_to_docs():
-    return RedirectResponse(url="/docs")
+def render_html():
+    with open(FRONTEND_DIR / "index.html", "r") as file:
+        html_context = file.read()
+    return HTMLResponse(content=html_context, status_code=200)
 
 
 v1_router = APIRouter()
