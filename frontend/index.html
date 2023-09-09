@@ -73,7 +73,7 @@
         let str = event.target.result;
         let json = JSON.parse(str);
 
-        async function postData(url = "http://localhost:8080/v1/models/test", data = {}) {
+        async function postData(url = "http://localhost:8080/v1/models/infer", data = {}) {
           const response = await fetch(url, {
             method: "POST",
             mode: "cors",
