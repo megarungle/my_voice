@@ -7,7 +7,7 @@ from src.routers.ml_models import models_router
 app = FastAPI(version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # FIXME: This is not secure. Required for dev frontend
+    allow_origins=["*"],  # FIXME: This is not secure. Required for dev frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

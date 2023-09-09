@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Permanent+Marker&display=swap');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.text-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.fire {
+  text-align: center;
+  color: rgb(255, 115, 0);
+  font-size: 10pt;
+  outline: none;
+  text-shadow:
+    0 0 20px crimson,
+    0 0 20px crimson,
+    0 0 10px crimson,
+    5px -10px 10px orange,
+    -5px -10px 10px yellow;
+  animation: 2s amazing infinite alternate linear;
+}
+
+@keyframes amazing {
+  0%   {
+    text-shadow: 0 10px 20px crimson, 0 0 20px red,
+    0 0 10px orange,
+    0 0 10px darkorange,
+    -5px -5px 5px yellow,
+    10px -10px 10px yellow;
+  }
+  25%   {
+    text-shadow: 0 10px 20px crimson, 0 0 20px red,
+    0 0 20px orange,
+    -5px -5px 5px yellow,
+    5px -10px 10px yellow,
+    -5px -10px 10px yellow;
+  }
+  50%   {
+    text-shadow: 0 10px 20px crimson, 0 0 20px red,
+    0 0 10px orange,
+    0 0 10px darkorange,
+    -5px -5px 5px yellow,
+    10px -10px 10px yellow;
+  }
+  75%   {
+    text-shadow: 0 10px 20px crimson, 0 0 20px red,
+    0 0 20px orange,
+    -5px -5px 5px yellow,
+    5px -10px 10px yellow,
+    -5px -10px 10px yellow;
+  }
+  100%   {
+    text-shadow: 0 10px 20px crimson, 0 0 20px red,
+    0 0 10px orange,
+    0 0 10px darkorange,
+    -5px -5px 5px yellow,
+    10px -10px 10px yellow;
+  }
+}

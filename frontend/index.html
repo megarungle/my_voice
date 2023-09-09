@@ -1,56 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 
 <head>
     <title>my_voice</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <style>
-        .center-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 100vh;
-            gap: 20px;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        h1 {
-            font-family: Impact, sans-serif;
-            color: #CE5937;
-        }
-
-        #input {
-            width: 300px;
-            padding: 10px;
-        }
-
-        #result {
-            margin-top: 10px;
-        }
-
-        #error {
-            color: red;
-            margin-top: 10px;
-        }
-
-        #word-cloud {
-            height: 30vh;
-            width: 30vw;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="css/fire.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
+<body>
 <nav class="navbar" role="navigation" aria-label="main navigation" style="margin: 20px">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item">
+            <img src="./static/logo.png" width="112" height="28" alt="">
         </a>
 
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -92,43 +55,18 @@
                 </div>
             </div>
         </div>
-
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="buttons">
-                    <a class="button is-primary">
-                        <strong>Star</strong>
-                    </a>
-                    <a class="button is-light">
-                        Contact
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </nav>
 
-<body>
-    <div class="center-screen">
-        <div id="word-cloud"></div>
-        <input class="input" type="text" id="input" placeholder="Text input">
-        <button onclick="analyzeSentiment()" class="button is-primary">Submit</button>
-        <div id="result"></div>
-        <div id="error"></div>
-    </div>
+<div class="center-screen">
+    <div id="word-cloud"></div>
+    <div id="result"></div>
+    <div id="error"></div>
+</div>
 </body>
-
-
-
-
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>
-            <strong>my_voice</strong> by <a href="https://github.com/megarungle/my_voice">cool team</a>. The source code
-            is licensed
-            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-            is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-        </p>
+        <strong>my_voice</strong> by <div class="fire">Горящая лодка</div>. <a href="https://github.com/megarungle/my_voice"> The source code</a>
     </div>
 </footer>
 

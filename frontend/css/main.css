@@ -1,0 +1,38 @@
+.center-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            gap: 20px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-family: Impact, sans-serif;
+            color: #CE5937;
+        }
+
+        #input {
+            width: 300px;
+            padding: 10px;
+        }
+
+        #result {
+            margin-top: 10px;
+        }
+
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        #word-cloud {
+            height: 30vh;
+            width: 30vw;
+            margin: 0 auto;
+        }
