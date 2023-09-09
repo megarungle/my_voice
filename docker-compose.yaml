@@ -1,28 +1,64 @@
 version: "3"
 services:
-    nginx:
-      image: nginx
-      restart: unless-stopped
-      container_name: nginx
-      volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-      ports:
-        - "80:80"
-      networks:
-        - backbone
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - hackathon-api
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.10.0
+    restart: unless-stopped
+    container_name: nginx-exporter
+    ports:
+      - "9113:9113"
+    command: -nginx.scrape-uri=http://nginx:80/nginx_status
+    depends_on:
+      - nginx
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./infrastructure/prometheus:/etc/prometheus
+      - prom_data:/prometheus
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./infrastructure/grafana:/etc/grafana/provisioning/datasources
+      - ./infrastructure/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./infrastructure/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/main.yaml
+  hackathon-frontend:
+    image: httpd:2.4
+    ports:
+      - 80:80
+    volumes:
+      - ./frontend/index.html:/usr/local/apache2/htdocs/index.html
+  hackathon-api:
+    #image: hackathon-api
+    #build:
+      #context: ./Dockerfile
+    image: httpd:2.4
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+    expose: 
+    - 80
 
-    api:
-      image: hackathon-api
-      restart: unless-stopped
-      build:
-        context: ./Dockerfile
-      deploy:
-        replicas: 2
-      expose: 
-        - 8080
-      networks:
-        - backbone
-
-networks:
-  backbone:
-    driver: bridge
+volumes:
+  prom_data:
