@@ -76,3 +76,8 @@ h1 {
     font-weight: bold;
     font-family: "lato", sans-serif;
 }
+
+.progress-bar {
+    width: 10vh;
+    height: 2vh;
+}
