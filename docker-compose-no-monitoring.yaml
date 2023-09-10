@@ -11,16 +11,9 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - hackathon-api
-
-  hackathon-frontend:
-    image: httpd:2.4
-    ports:
-      - 80:80
-    volumes:
-      - ./frontend/index.html:/usr/local/apache2/htdocs/index.html
 
   hackathon-api:
     image: hackathon-api

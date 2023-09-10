@@ -7,8 +7,8 @@
 - [Окружение](#окружение)
 - [Ручные запуски](#%D1%80%D1%83%D1%87%D0%BD%D1%8B%D0%B5-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B8)
   - [Backend](#backend)
-  - [Frontend](#fro)
-  - [Infer](#тестовый-инфер)
+  - [Отдельно frontend](#отдельно-frontend)
+  - [Отдельно инфер на небольшой наборе данных](#отдельно-инфер-на-небольшом-наборе-данных)
 - [Деплой](#%D0%B4%D0%B5%D0%BF%D0%BB%D0%BE%D0%B9)
 - [Инфраструктура](#%D0%B8%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0)
 
@@ -21,17 +21,25 @@ WSL2 Ubuntu с Docker Desktop
 
 ### Backend
 
+Пути:
+
+- `localhost:80/docs` Swagger API
+- `localhost:80/v1` Swagger API
+- `localhost:80/static` Frontend
+
+Запуск:
+
 ```bash
 cd backend
 pip install -r requirements.txt
 python main.py
 ```
 
-### Frontend
+### Отдельно frontend
 
 Открыть `index.html` из папки `frontend`
 
-### Тестовый инфер
+### Отдельно инфер на небольшом наборе данных
 
 ```bash
 cd backend
@@ -41,19 +49,18 @@ python views.py
 
 ## Деплой
 
-Список доступных снаружи сервисов:
+### 1. Используя Docker
 
-- Frontend (через nginx): [localhost:80](localhost:80)
-- Backend (behind nginx load balancer): [localhost:8080](localhost:8080)
-- Prometheus: [localhost:9090](localhost:9090)
-- Grafana: [localhost:3000](localhost:3000)
+Только образ с front/end без мониторинга
 
-Список внутренних сервисов недоступных снаружи:
+```bash
+  docker build -t hackathon-api .
+  docker run -it --name hackathon -p 5000:5000 hackathon-api
+```
 
-- Alertmanager
-- Nginx Exporter
+### 2. Используя Docker compose
 
-### С мониторингом
+#### С мониторингом
 
 Заполни секреты в `infrastructure/prometheus/alertmanager.yml` и запусти:
 
@@ -61,7 +68,7 @@ python views.py
   docker-compose -f docker-compose.yaml up
 ```
 
-### Без мониторинга
+#### Без мониторинга
 
 Отсутствуют Grafana, Prometheus и связанные с ними внутренний сервисы (алерт менеджер, nginx экспортер)
 
@@ -72,3 +79,14 @@ python views.py
 ## Инфраструктура
 
 <img src="docs/infrastructure.svg">
+
+Список доступных снаружи сервисов:
+
+- Backend/Frontend (в контейнерах за лоад балансеров): [localhost:80](localhost:8080)
+- Prometheus: [localhost:9090](localhost:9090)
+- Grafana: [localhost:3000](localhost:3000)
+
+Список внутренних сервисов недоступных снаружи:
+
+- Alertmanager
+- Nginx Exporter
