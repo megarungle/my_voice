@@ -74,8 +74,7 @@ class RunnerRecovery(runner.Runner):
             corrected.append(punctuation_corrected)
 
         out = []
-
-        print(f"i've got {neural_preprocess} in infer")
+        print(f"i've got {self.neural_preprocess} in infer")
         if self.neural_preprocess:
             print("Using urukhan preprocessing")
             final_status, out = self._correct_spelling(corrected)
