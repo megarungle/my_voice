@@ -7,19 +7,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" href="css/fire.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/drop.css">
     <link rel="stylesheet" href="css/starts.css">
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+<!--<label for="upload" class="drop-container" id="upload">-->
+<!--  <span class="drop-title">Drop files here</span>-->
+<!--  or-->
+<!--  <input type="file" id="file" accept=".json"/>-->
+<!--</label>-->
+<div style="position: absolute; top: 15px; left: 15px;">
+        <form class="upload-btn-wrapper" id="upload">
+          <label for="file">File</label>
+          <input type="file" id="file" accept=".json"/>
+          <button class="btn">Upload</button>
+        </form>
+
+</div><input style="position: absolute; top: 15px; left: 470px;" id="sensivity" value="0.8"/>
+<div class="navbar" style="z-index: -1">
+
+</div>
 <div id="stars"></div>
 <div id="stars2"></div>
 <div id="stars3"></div>
-<form class="upload-btn-wrapper" id="upload">
-  <label for="file">File</label>
-  <input type="file" id="file" accept=".json"/>
-  <button class="btn">Upload</button>
-</form>
 
 
 <div class="page-wrapper">
@@ -41,6 +53,7 @@
     </div>
   </div>
 </div>
+
 </body>
 <!--<footer class="footer">-->
 <!--    <div class="content has-text-centered">-->
@@ -74,9 +87,10 @@
         console.log(json);
 
         async function postData(data = {}) {
-          const response = await fetch("http://localhost:8080/v1/models/infer", {
+            let sense = document.getElementById('sensivity').getAttribute('value');
+          const response = await fetch("http://localhost:8080/v1/models/infer/"+sense, {
             method: "POST",
-            mode: "no-cors",
+            mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
