@@ -7,6 +7,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 import numpy as np
+from fuzzywuzzy import process
 
 
 class RunnerCluster(runner.Runner):
@@ -39,31 +40,33 @@ class RunnerCluster(runner.Runner):
         answers_dict = dict(
             map(lambda k, l: (k, l), [i for i in range(0, len(data))], answers)
         )
+        values = list(answers_dict.values())
         while len(answers_dict) > 1:
             index = list(answers_dict.keys())[0]
-            answer = answers_dict.pop(index)
-            text = f"{question} {answer}"
+            answer = answers_dict[index]
+            text = f"{answer}"
             label_texts = list(answers_dict.values())
-            status, probs = self._predict_zero_shot(text, label_texts)
-            if status is not InferStatus.status_ok:
-                # Не добавляем ничего в результат, но продолжаем обработку
-                final_status = status
-                continue
-            indices_dict = dict(
-                map(lambda k, l: (k, l), list(answers_dict.keys()), probs)
-            )
-            indices_cluster = [index]
-            indices_cluster += self._check_probs(indices_dict)
-            cluster_answers = [data[index].corrected]
-            for j in range(0, len(data)):
-                if j in indices_cluster:
-                    cluster_answers.append(data[j].corrected)
+
+            probs = process.extract(answer, label_texts, limit=len(label_texts))
+            count = self._check_probs(probs)
+            probs = probs[:count]
+            indices_cluster = []
+            for prob in probs:
+                if values.count(prob[0]) == 1:
+                    indices_cluster.append(values.index(prob[0]))
+                else:
+                    for i in range(len(values)):
+                        if values[i] == prob[0]:
+                            indices_cluster.append(i)
+
+            cluster_answers = [data[x].answer for x in indices_cluster]
             cluster_name = self._get_cluster_name(cluster_answers)
-            for j in range(0, len(data)):
-                if j in indices_cluster:
-                    data[j].cluster = cluster_name
-                    if j != index:
-                        answers_dict.pop(j)
+
+            for i in range(len(indices_cluster)):
+                data[indices_cluster[i]].cluster = cluster_name
+                if indices_cluster[i] in answers_dict:
+                    answers_dict.pop(indices_cluster[i])
+
         if len(answers_dict) == 1:
             index = list(answers_dict.keys())[0]
             answer = answers_dict.pop(index)
@@ -100,12 +103,10 @@ class RunnerCluster(runner.Runner):
             proba /= sum(proba)
         return (InferStatus.status_ok, proba)
 
-    def _check_probs(self, indices_dict) -> List[int]:
-        res = []
-        for key, value in indices_dict.items():
-            if value >= self.sense:
-                res.append(key)
-        return res
+    def _check_probs(self, probs) -> int:
+        for i in range(len(probs)):
+            if probs[i][1] < self.sense:
+                return i
 
     def _get_cluster_name(self, cluster_answers) -> str:
         lens = [len(ans) for ans in cluster_answers]
