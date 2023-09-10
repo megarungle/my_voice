@@ -13,7 +13,7 @@ import time
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
 MAX_INPUT = 256
-PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?\«\»]+\ *"
+PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:'\",<.>/?\«\»]+\ *"
 
 
 class RunnerRecovery(runner.Runner):
@@ -51,17 +51,16 @@ class RunnerRecovery(runner.Runner):
             corrected_tokens.append(stem_l)
         return " ".join(corrected_tokens)
 
-
     def infer(self, data, question) -> Tuple[InferStatus, List[Data]]:
         final_status = InferStatus.status_ok
 
         # загружаем русский язык для NLTK
-        nltk.download('punkt', quiet=True)
-        nltk.download('averaged_perceptron_tagger', quiet=True)
-        nltk.download('tagsets', quiet=True)
-        nltk.download('words', quiet=True)
-        nltk.download('maxent_ne_chunker', quiet=True)
-        nltk.download('stopwords', quiet=True)
+        nltk.download("punkt")
+        nltk.download("averaged_perceptron_tagger")
+        nltk.download("tagsets")
+        nltk.download("words")
+        nltk.download("maxent_ne_chunker")
+        nltk.download("stopwords")
         self.stemmer = RussianStemmer()
         big_input = len(data) > MAX_INPUT
         corrected = []
@@ -70,11 +69,15 @@ class RunnerRecovery(runner.Runner):
             corrected.append(punctuation_corrected)
 
         out = []
+
+        # TODO: Change to user input
         if big_input:
+            # No neural
             print("Big input, use nltk preprocessing")
             for i in range(0, len(corrected)):
                 out.append(self._preprocess_nltk(corrected[i]))
         else:
+            # Network
             print("Use urukhan preprocessing")
             final_status, out = self._correct_spelling(corrected)
 
@@ -83,7 +86,9 @@ class RunnerRecovery(runner.Runner):
 
         return [final_status, data]
 
-    def _correct_spelling(self, input_sequences: List[str]) -> Tuple[InferStatus, Optional[List[str]]]:
+    def _correct_spelling(
+        self, input_sequences: List[str]
+    ) -> Tuple[InferStatus, Optional[List[str]]]:
         # Prepare input
         try:
             encoded = self.tokenizer(

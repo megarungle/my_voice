@@ -26,7 +26,7 @@ function handleSubmit(event) {
     createProgressBar();
   } else {
     let progressBar = document.querySelectorAll("#progress-bar")[0];
-    progressBar.setAttribute("value", "0");
+    progressBar.removeAttribute("value");
   }
 }
 
@@ -45,7 +45,7 @@ function createProgressBar() {
   progress.setAttribute("max", "100");
   progress.style.marginTop = "2.5vh";
 
-  progress.setAttribute("value", "0");
+  // progress.setAttribute("value", "0");
 
   var button = document.querySelectorAll("#upload-file-navbar")[0];
 
@@ -147,10 +147,11 @@ function createCloud(id, words, theme) {
     let wordContainer = document.createElement("div");
     wordContainer.style.position = "absolute";
     wordContainer.style.fontSize = freq + "px";
-    wordContainer.style.color = "#99B4D7FF";
+    wordContainer.style.color = "rgb(62, 63, 64)";
     if (freq === 25) {
       wordContainer.style.fontWeight = "bold";
-      wordContainer.style.color = "#AEBBD2FF";
+      // Main color
+      wordContainer.style.color = "rgb(105, 113, 113)";
     }
     wordContainer.style.lineHeight = config.lineHeight;
     wordContainer.style.transform = "translateX(0%) translateY(0%)";
