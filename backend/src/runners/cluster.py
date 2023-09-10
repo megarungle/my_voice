@@ -13,7 +13,7 @@ class RunnerCluster(runner.Runner):
     tokenizer: AutoTokenizer
     model: AutoModelForSequenceClassification
     device: torch.device
-    sense: float
+    sense: int
 
     def __new__(cls) -> Tuple[InferStatus, Optional[runner.Runner]]:
         if torch.cuda.is_available():

@@ -44,7 +44,7 @@ def post_infer(_input: InferRequest, sense: str) -> Themes:
 
     class Infer:
         def get_redirect_url(self, _input):
-            core = Core(float(sense))
+            core = Core(int(sense))
             print("Waiting for infer request")
             status, data = core.infer(_input)
             if status is InferStatus.status_ok:
@@ -71,7 +71,6 @@ def post_infer(_input: InferRequest, sense: str) -> Themes:
                 answers=answers,
             )
             for theme, answers in answers["positive"].items()
-            
         ],
         negative=[
             InferInputAnswer(

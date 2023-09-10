@@ -13,10 +13,10 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
 
     <link rel="stylesheet" href="css/main.css" />
     <script src="scripts/main.js" type="text/javascript"></script>
@@ -42,20 +42,23 @@
         </div>
       </div>
 
-
       <div class="navbar-item" id="upload-file-navbar">
         <div class="file is-info has-name">
           <label class="file-label">
-            <input class="file-input" type="file" id="file" accept=".json" name="resume" />
+            <input
+              class="file-input"
+              type="file"
+              id="file"
+              accept=".json"
+              name="resume"
+            />
             <span class="file-cta">
               <span class="file-icon">
                 <i class="fas fa-upload"></i>
               </span>
               <span class="file-label"> Входной файл </span>
             </span>
-            <span class="file-name" for="file">
-              dataset.json
-            </span>
+            <span class="file-name" for="file"> dataset.json </span>
           </label>
         </div>
       </div>
@@ -63,11 +66,21 @@
       <div class="navbar-item">
         <div class="field">
           <p class="control has-icons-left">
-            <input class="input" placeholder="Sensitivy" id="sensitivity">
+            <input class="input" placeholder="Sensitivy" id="sensitivity"` type="number" min="0" max="100"/>
             <span class="icon is-small is-left">
               <i class="fas fa-lock"></i>
             </span>
           </p>
+        </div>
+      </div>
+      <div class="navbar-item">
+        <div class="control">
+          Preprocessing:
+
+          <label class="checkbox">
+            <input type="checkbox" />
+            Neural network
+          </label>
         </div>
       </div>
 
@@ -86,17 +99,30 @@
 
   <body>
     <div class="page-wrapper">
-
-      <div class="box" style="width: 33%; margin-bottom: 0px;  background:#b6ff46;">
-        <div id="block-positive"><div><div class="block-title"><h1 class="title is-1">Positive</h1></div></div></div>
+      <div
+        class="box"
+        style="width: 33%; margin-bottom: 0px; background: #a6ff1eb8"
+      >
+        <div id="block-positive">
+          <div>
+            <div class="block-title"><h1 class="title is-1">Positive</h1></div>
+          </div>
+        </div>
       </div>
 
-      <div class="box" style="width: 33%;margin-bottom:0px">
-        <div id="block-neutral"><div class="block-title"><h1 class="title is-1">Neutral</h1></div></div>
+      <div class="box" style="width: 33%; margin-bottom: 0px">
+        <div id="block-neutral">
+          <div class="block-title"><h1 class="title is-1">Neutral</h1></div>
+        </div>
       </div>
 
-      <div class="box" style="width: 33%; margin-bottom:0px; background: #ff6e6e;"> 
-        <div id="block-negative"><div class="block-title"><h1 class="title is-1">Negative</h1></div></div>
+      <div
+        class="box"
+        style="width: 33%; margin-bottom: 0px; background: #ff6e6ea3"
+      >
+        <div id="block-negative">
+          <div class="block-title"><h1 class="title is-1">Negative</h1></div>
+        </div>
       </div>
     </div>
   </body>
@@ -104,9 +130,13 @@
   <footer class="footer">
     <div class="content has-text-centered">
       <p>
-        <strong>my_voice</strong> by <a href="">Горящая Лодка</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        <strong>my_voice</strong> by <a href="">Горящая Лодка</a>. The source
+        code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+        website content is licensed
+        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+          >CC BY NC SA 4.0</a
+        >.
       </p>
     </div>
   </footer>
