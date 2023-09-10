@@ -64,7 +64,7 @@ function logFile(event) {
   question.innerHTML = json['question'];
 
   let sense = document.querySelectorAll("#sensitivity")[0].value;
-  let checkbox = document.querySelectorAll("#neural-net-preprocess");
+  let checkbox = document.querySelectorAll("#neural-net-preprocess")[0];
   if (checkbox.checked) {
     json["neural_preprocess"] = true;
   } else {

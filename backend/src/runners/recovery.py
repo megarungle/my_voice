@@ -25,7 +25,6 @@ class RunnerRecovery(runner.Runner):
     def __new__(
         cls, neural_preprocess: bool
     ) -> Tuple[InferStatus, Optional[runner.Runner]]:
-        print(f"i've got {neural_preprocess} in __new__")
         cls.neural_preprocess = neural_preprocess
         if torch.cuda.is_available():
             cls.device = torch.device("cuda")
@@ -74,7 +73,6 @@ class RunnerRecovery(runner.Runner):
             corrected.append(punctuation_corrected)
 
         out = []
-        print(f"i've got {self.neural_preprocess} in infer")
         if self.neural_preprocess:
             print("Using urukhan preprocessing")
             final_status, out = self._correct_spelling(corrected)
