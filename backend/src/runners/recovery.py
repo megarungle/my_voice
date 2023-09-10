@@ -20,8 +20,13 @@ class RunnerRecovery(runner.Runner):
     tokenizer: T5TokenizerFast
     model: AutoModelForSeq2SeqLM
     device: torch.device
+    neural_preprocess: bool = True
 
-    def __new__(cls) -> Tuple[InferStatus, Optional[runner.Runner]]:
+    def __new__(
+        cls, neural_preprocess: bool
+    ) -> Tuple[InferStatus, Optional[runner.Runner]]:
+        print(f"i've got {neural_preprocess} in __new__")
+        cls.neural_preprocess = neural_preprocess
         if torch.cuda.is_available():
             cls.device = torch.device("cuda")
         else:
@@ -70,16 +75,14 @@ class RunnerRecovery(runner.Runner):
 
         out = []
 
-        # TODO: Change to user input
-        if big_input:
-            # No neural
-            print("Big input, use nltk preprocessing")
+        print(f"i've got {neural_preprocess} in infer")
+        if self.neural_preprocess:
+            print("Using urukhan preprocessing")
+            final_status, out = self._correct_spelling(corrected)
+        else:
+            print("Using nltk preprocessing")
             for i in range(0, len(corrected)):
                 out.append(self._preprocess_nltk(corrected[i]))
-        else:
-            # Network
-            print("Use urukhan preprocessing")
-            final_status, out = self._correct_spelling(corrected)
 
         for i in range(0, len(data)):
             data[i].corrected = self._correct_punctuation(out[i])

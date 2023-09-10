@@ -22,6 +22,8 @@ class InferInputAnswer(BaseModel):
 
 
 class InferRequest(BaseModel):
+    sense: int
+    neural_preprocess: bool
     question: str
     id: int
     answers: List[InferInputAnswer]
@@ -29,6 +31,8 @@ class InferRequest(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
+                "sense": 80,
+                "neural_preprocess": False,
                 "question": "Вопрос 7. Что должны сделать Лидеры безопасности, чтобы снизить травматизм?",
                 "id": 19749,
                 "answers": [{"answer": "создание раб.групп для контрол", "count": 1}],

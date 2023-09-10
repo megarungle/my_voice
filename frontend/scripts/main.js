@@ -61,18 +61,24 @@ function logFile(event) {
   let str = event.target.result;
   let json = JSON.parse(str);
 
+  let sense = document.querySelectorAll("#sensitivity")[0].value;
+  let checkbox = document.querySelectorAll("#neural-net-preprocess");
+  if (checkbox.checked) {
+    json["neural_preprocess"] = true;
+  } else {
+    json["neural_preprocess"] = false;
+  }
+
+  json["sense"] = sense;
+
   async function postData(data = {}) {
-    let sense = document.querySelectorAll("#sensitivity")[0].value;
-    const response = await fetch(
-      "http://localhost:8080/v1/models/infer/" + sense,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch("http://localhost:8080/v1/models/infer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     return await response.json();
   }
 
