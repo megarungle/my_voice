@@ -62,12 +62,17 @@ function logFile(event) {
   let json = JSON.parse(str);
 
   async function postData(data = {}) {
-    const response = await fetch("http://localhost:8080/v1/models/test", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let sense = document.querySelectorAll("#sensitivity")[0].value;
+    const response = await fetch(
+      "http://localhost:8080/v1/models/infer/" + sense,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
     return await response.json();
   }
 
