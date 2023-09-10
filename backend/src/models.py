@@ -1,3 +1,5 @@
+"""Models used for talking with backend"""
+
 from typing import List, Dict
 
 from pydantic import BaseModel, Field
@@ -62,6 +64,7 @@ class SentimentResult(BaseModel):
         }
 
 
+# TODO: Fix duplication
 class InferInputAnswer(BaseModel):
     theme: str
     answers: List[str]

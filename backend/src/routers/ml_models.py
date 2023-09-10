@@ -1,5 +1,5 @@
+from typing import List
 from pathlib import Path
-from typing import Any, Dict, List
 from collections import defaultdict
 
 from fastapi import APIRouter
@@ -10,16 +10,12 @@ from src.models import (
     SpellCorrectRequest,
     SentimentRequest,
     InferRequest,
-    InferOutputAnswer,
     InferInputAnswer,
     Themes,
-    InferOutput,
 )
 from src.utils.dataset_parser import parse_dataset_json
 from src.core import Core
 from src.structs import InferStatus, Data
-
-from typing import List
 
 
 models_router = APIRouter()
@@ -104,9 +100,9 @@ def get_test() -> Themes:
         "negatives": defaultdict(list),
         "neutrals": defaultdict(list),
     }
-    for sentiment, data in sents.items():
+    for _sentiment, data in sents.items():
         for answer in data:
-            answers[sentiment][answer.theme].append(answer.answer)
+            answers[_sentiment][answer.theme].append(answer.answer)
 
     return Themes(
         positive=[

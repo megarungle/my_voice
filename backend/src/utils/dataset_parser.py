@@ -1,3 +1,4 @@
+"""Module for parsing test dataset"""
 from typing import Dict, List
 from pathlib import Path
 from enum import Enum
@@ -8,15 +9,19 @@ import json
 
 @dataclass
 class DatasetAnswer:
+    """Single answer from dataset question"""
+
     theme: str
     answer: str
     sentiment: str
 
 
 class DatasetSentiments(Enum):
-    negatives = "negatives"
-    neutrals = "neutrals"
-    positives = "positives"
+    """Sentiments used in dataset"""
+
+    NEGATIVES = "negatives"
+    NEUTRALS = "neutrals"
+    POSITIVES = "positives"
 
 
 def parse_dataset_json(
@@ -27,9 +32,9 @@ def parse_dataset_json(
         data = json.load(file)
 
     sentiments = {
-        DatasetSentiments.positives.value: [],
-        DatasetSentiments.negatives.value: [],
-        DatasetSentiments.neutrals.value: [],
+        DatasetSentiments.POSITIVES.value: [],
+        DatasetSentiments.NEGATIVES.value: [],
+        DatasetSentiments.NEUTRALS.value: [],
     }
 
     for i in data["answers"]:

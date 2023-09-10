@@ -1,8 +1,10 @@
+"""Main fastapi"""
+
+from pathlib import Path
+
 from fastapi import FastAPI, APIRouter
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from pathlib import Path
 
 from src.routers.ml_models import models_router
 
@@ -16,7 +18,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/static", StaticFiles(directory=FRONTEND_DIR, html=True), name='static')
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR, html=True), name="static")
 
 v1_router = APIRouter()
 v1_router.include_router(models_router, prefix="/models", tags=["models"])
