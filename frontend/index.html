@@ -82,7 +82,6 @@
     function logFile (event) {
         let str = event.target.result;
         let json = JSON.parse(str);
-        console.log(json);
 
         async function postData(data = {}) {
             let sense = document.getElementById('sensivity').getAttribute('value');
