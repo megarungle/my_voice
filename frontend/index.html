@@ -12,16 +12,26 @@
 </head>
 
 <body>
+<!--<label for="upload" class="drop-container" id="upload">-->
+<!--  <span class="drop-title">Drop files here</span>-->
+<!--  or-->
+<!--  <input type="file" id="file" accept=".json"/>-->
+<!--</label>-->
+<div style="position: absolute; top: 15px; left: 15px;">
+        <form class="upload-btn-wrapper" id="upload">
+          <label for="file">File</label>
+          <input type="file" id="file" accept=".json"/>
+          <button class="btn">Upload</button>
+        </form>
+
+</div><input style="position: absolute; top: 15px; left: 470px;" id="sensivity" value="0.8"/>
+<div class="navbar" style="z-index: -1">
+
+</div>
 <div id="stars"></div>
 <div id="stars2"></div>
 <div id="stars3"></div>
-<form class="upload-btn-wrapper" id="upload">
-  <label for="file">File</label>
-  <input type="file" id="file" accept=".json"/>
-  <button class="btn">Upload</button>
-</form>
 
-<div class="logo fire">Горящая лодка</div>
 
 <div class="page-wrapper">
   <div class="left-panel-wrapper">
@@ -73,8 +83,9 @@
         let str = event.target.result;
         let json = JSON.parse(str);
 
-        async function postData(url = "http://localhost:8080/v1/models/test", data = {}) {
-          const response = await fetch(url, {
+        async function postData(data = {}) {
+            let sense = document.getElementById('sensivity').getAttribute('value');
+          const response = await fetch("http://localhost:8080/v1/models/infer/"+sense, {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -82,14 +93,12 @@
             headers: {
               "Content-Type": "application/json",
             },
-            redirect: "follow",
-            referrerPolicy: "no-referrer",
-            data: JSON.stringify(data)
+            body: JSON.stringify(data)
           });
           return await response.json();
         }
 
-        postData(str).then((data) => {
+        postData(json).then((data) => {
             console.log(data);
             let i = 0
             for (let key in data) {
