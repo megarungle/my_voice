@@ -13,6 +13,7 @@ class RunnerCluster(runner.Runner):
     tokenizer: AutoTokenizer
     model: AutoModelForSequenceClassification
     device: torch.device
+    sense: float
 
     def __new__(cls) -> Tuple[InferStatus, Optional[runner.Runner]]:
         if torch.cuda.is_available():
@@ -102,7 +103,7 @@ class RunnerCluster(runner.Runner):
     def _check_probs(self, indices_dict) -> List[int]:
         res = []
         for key, value in indices_dict.items():
-            if value >= 0.80:
+            if value >= self.sense:
                 res.append(key)
         return res
 

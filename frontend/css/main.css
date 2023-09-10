@@ -61,7 +61,7 @@ h1 {
 }
 
 .word-cloud {
-    height: 8vh;
+    height: 10vh;
     margin: 0 auto;
     transition: 0.3s ease;
 }

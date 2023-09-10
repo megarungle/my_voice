@@ -14,15 +14,15 @@ class Core:
     runner_cluster: Runner = None
     runner_sentiment: Runner = None
 
-    def __init__(self) -> None:
+    def __init__(self, sense) -> None:
         if self._initialized:
             return
         print("Core initialization")
         # TODO: db init
-        self._init_runners()
+        self._init_runners(sense)
         self._initialized = not self._initialized
 
-    def _init_runners(self) -> None:
+    def _init_runners(self, sense) -> None:
         status, runner = recovery.RunnerRecovery()
         if status is InferStatus.status_ok:
             self.runner_recovery = runner
@@ -32,6 +32,8 @@ class Core:
             self._initialized = True
 
         status, runner = cluster.RunnerCluster()
+        runner.sense = sense
+        print(runner.sense)
         if status is InferStatus.status_ok:
             self.runner_cluster = runner
         else:
