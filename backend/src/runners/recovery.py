@@ -84,6 +84,10 @@ class RunnerRecovery(runner.Runner):
         for i in range(0, len(data)):
             data[i].corrected = self._correct_punctuation(out[i])
 
+        for elem in data.copy():
+            if len(elem.corrected) == 0 or (len(elem.corrected) == 1 and elem.corrected == ' '):
+                data.remove(elem)
+
         return [final_status, data]
 
     def _correct_spelling(
@@ -116,8 +120,20 @@ class RunnerRecovery(runner.Runner):
     def _correct_punctuation(self, input_phrase) -> str:
         try:
             if input_phrase:
+                input_phrase = self._deEmojify(input_phrase)
                 input_phrase = re.sub(PATTERN, " ", input_phrase)
                 input_phrase = re.sub(" +", " ", input_phrase)
         except Exception as exc:
             print(f"ERROR: recovery runner correction punctuation failed: {exc}")
         return input_phrase
+
+    def _deEmojify(self, phrase):
+        regrex_pattern = re.compile(pattern="["
+                                            u"\U00000000-\U00000009"
+                                            u"\U0000000B-\U0000001F"
+                                            u"\U00000080-\U00000400"
+                                            u"\U00000402-\U0000040F"
+                                            u"\U00000450-\U00000450"
+                                            u"\U00000452-\U0010FFFF"
+                                            "]+", flags=re.UNICODE)
+        return regrex_pattern.sub(r'', phrase)
