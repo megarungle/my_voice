@@ -1,240 +1,144 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
+  <head>
     <title>my_voice</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" href="css/fire.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/starts.css">
-    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<body>
-<!--<label for="upload" class="drop-container" id="upload">-->
-<!--  <span class="drop-title">Drop files here</span>-->
-<!--  or-->
-<!--  <input type="file" id="file" accept=".json"/>-->
-<!--</label>-->
-<div style="position: absolute; top: 15px; left: 15px;">
-        <form class="upload-btn-wrapper" id="upload">
-          <label for="file">File</label>
-          <input type="file" id="file" accept=".json"/>
-          <button class="btn">Upload</button>
-        </form>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
 
-</div><input style="position: absolute; top: 15px; left: 470px;" id="sensivity" value="0.8"/>
-<div class="navbar" style="z-index: -1">
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="scripts/main.js" type="text/javascript"></script>
+  </head>
 
-</div>
-<div id="stars"></div>
-<div id="stars2"></div>
-<div id="stars3"></div>
-
-
-<div class="page-wrapper">
-  <div class="left-panel-wrapper">
-    <div class="left-panel">
-      <div id="block-positive"><div class="block-title">Positive</div></div>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="static/logo.png" width="50" height="50" />
+      </a>
     </div>
-  </div>
 
-  <div class="content-wrapper">
-    <div class="content">
-        <div id="block-neutral"><div class="block-title">Neutral</div></div>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link"> Информация </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item"> Документация </a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item"> Сообщить об ошибке </a>
+          </div>
+        </div>
+        <div class="navbar-item question" id="question"></div>
+      </div>
+
+      <div class="navbar-item" id="upload-file-navbar">
+        <div class="file is-info has-name">
+          <label class="file-label">
+            <input
+              class="file-input"
+              type="file"
+              id="file"
+              accept=".json"
+              name="resume"
+            />
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label"> Входной файл </span>
+            </span>
+            <span class="file-name" for="file"> dataset.json </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" placeholder="Sensitivy" id="sensitivity"` type="number" min="0" max="100" value="80"/>
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="navbar-item">
+        <div class="control">
+          Preprocessing:
+
+          <label class="checkbox">
+            <input type="checkbox" id="neural-net-preprocess"/>
+            Neural network
+          </label>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Поставить звезду</strong>
+            </a>
+            <a class="button is-light"> Репозиторий </a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </nav>
 
-  <div class="right-panel-wrapper">
-    <div class="right-panel">
-        <div id="block-negative"><div class="block-title">Negative</div></div>
+  <body>
+    <div class="page-wrapper">
+      <div
+        class="box"
+        style="width: 33%; margin-bottom: 0; background: #99eaa5b8"
+      >
+        <div id="block-positive">
+          <div>
+            <div class="block-title"><h1 class="title is-1">Positive</h1></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box" style="width: 33%; margin-bottom: 0">
+        <div id="block-neutral">
+          <div class="block-title"><h1 class="title is-1">Neutral</h1></div>
+        </div>
+      </div>
+
+      <div
+        class="box"
+        style="width: 33%; margin-bottom: 0; background: #ffa4a4a3"
+      >
+        <div id="block-negative">
+          <div class="block-title"><h1 class="title is-1">Negative</h1></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-</body>
-<!--<footer class="footer">-->
-<!--    <div class="content has-text-centered">-->
-<!--        <strong>my_voice</strong> by <div class="fire">Горящая лодка</div>. <a href="https://github.com/megarungle/my_voice"> The source code</a>-->
-<!--    </div>-->
-<!--</footer>-->
+  </body>
 
-<script>
-    let form = document.querySelector('#upload');
-    let file = document.querySelector('#file');
-
-    form.addEventListener('submit', handleSubmit);
-
-    function handleSubmit (event) {
-        // Stop the form from reloading the page
-        event.preventDefault();
-
-        // If there's no file, do nothing
-        if (!file.value.length) return;
-
-        // Create a new FileReader() object
-        let reader = new FileReader();
-        // Read the file
-        reader.readAsText(file.files[0]);
-        reader.onload = logFile;
-    }
-
-    function logFile (event) {
-        let str = event.target.result;
-        let json = JSON.parse(str);
-
-        async function postData(data = {}) {
-            let sense = document.getElementById('sensivity').getAttribute('value');
-          const response = await fetch("http://localhost:8080/v1/models/infer/"+sense, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-          });
-          return await response.json();
-        }
-
-        postData(json).then((data) => {
-            console.log(data);
-            let i = 0
-            for (let key in data) {
-                let blocks = data[key];
-                blocks.forEach(function (block) {
-                    let theme = block['theme'];
-                    let answers = block['answers'];
-                    createBlock(i, key);
-                    createCloud(i, answers, theme);
-                    i++;
-                })
-            }
-        });
-    }
-
-
-    function createBlock(id, sentiment) {
-        let block = document.getElementById('block-' + sentiment);
-
-        let cloudBlock = document.createElement('div');
-        cloudBlock.classList.add('word-cloud');
-        cloudBlock.setAttribute("id", "word-cloud" + id);
-        block.appendChild(cloudBlock);
-    }
-
-    function createCloud(id, words, theme) {
-        let config = {
-            trace: true,
-            spiralResolution: 0.8, //Lower = better resolution
-            spiralLimit: 360 * 5,
-            lineHeight: 0.8,
-            xWordPadding: 0,
-            yWordPadding: 0,
-            font: "lato"
-        }
-
-        words = words.map(function (word) {
-            return {
-                word: word,
-                freq: Math.floor(Math.random() * 5) + 10 // шрифт взависимости от каунта
-            }
-        })
-
-        words.push({"word": theme, "freq": 25});
-
-        words.sort(function (a, b) {
-            return -1 * (a.freq - b.freq);
-        });
-
-        let cloud = document.getElementById("word-cloud" + id);
-        cloud.style.position = "relative";
-        cloud.style.fontFamily = config.font;
-
-        let startPoint = {
-            x: cloud.offsetWidth / 2,
-            y: cloud.offsetHeight / 2
-        };
-
-        let wordsDown = [];
-
-        function createWordObject(word, freq) {
-            let wordContainer = document.createElement("div");
-            wordContainer.style.position = "absolute";
-            wordContainer.style.fontSize = freq + "px";
-            wordContainer.style.color = "#99B4D7FF";
-            if (freq === 25) {
-                wordContainer.style.fontWeight = "bold";
-                wordContainer.style.color = '#AEBBD2FF';
-            }
-            wordContainer.style.lineHeight = config.lineHeight;
-            wordContainer.style.transform = "translateX(0%) translateY(0%)";
-            wordContainer.appendChild(document.createTextNode(word));
-
-            return wordContainer;
-        }
-
-        function placeWord(word, x, y) {
-
-            cloud.appendChild(word);
-            word.style.left = x - word.offsetWidth / 2 + "px";
-            word.style.top = y - word.offsetHeight / 2 + "px";
-
-            wordsDown.push(word.getBoundingClientRect());
-        }
-
-        function spiral(i, callback) {
-            angle = config.spiralResolution * i;
-            x = (1 + angle) * Math.cos(angle);
-            y = (1 + angle) * Math.sin(angle);
-            return callback ? callback() : null;
-        }
-
-        function intersect(word, x, y) {
-            cloud.appendChild(word);
-
-            word.style.left = x - word.offsetWidth / 2 + "px";
-            word.style.top = y - word.offsetHeight / 2 + "px";
-
-            let currentWord = word.getBoundingClientRect();
-
-            cloud.removeChild(word);
-
-            for (let i = 0; i < wordsDown.length; i += 1) {
-                let comparisonWord = wordsDown[i];
-
-                if (!(currentWord.right + config.xWordPadding < comparisonWord.left - config.xWordPadding ||
-                    currentWord.left - config.xWordPadding > comparisonWord.right + config.wXordPadding ||
-                    currentWord.bottom + config.yWordPadding < comparisonWord.top - config.yWordPadding ||
-                    currentWord.top - config.yWordPadding > comparisonWord.bottom + config.yWordPadding)) {
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        (function placeWords() {
-            for (let i = 0; i < words.length; i += 1) {
-
-                let word = createWordObject(words[i].word, words[i].freq);
-
-                for (let j = 0; j < config.spiralLimit; j++) {
-                    if (spiral(j, function () {
-                        if (!intersect(word, startPoint.x + x, startPoint.y + y)) {
-                            placeWord(word, startPoint.x + x, startPoint.y + y);
-                            return true;
-                        }
-                    })) {
-                        break;
-                    }
-                }
-            }
-        })();
-    }
-
-</script>
-
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>my_voice</strong> by <a href="">Горящая Лодка</a>. The source
+        code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The
+        website content is licensed
+        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+          >CC BY NC SA 4.0</a
+        >.
+      </p>
+    </div>
+  </footer>
 </html>

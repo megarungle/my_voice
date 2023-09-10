@@ -13,15 +13,19 @@ import time
 
 MODEL_NAME = "UrukHan/t5-russian-spell"
 MAX_INPUT = 256
-PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:\'\",<.>/?\«\»]+\ *"
+PATTERN = "[!@#$%^&*\(\)\-_=+\\\|\[\]\{\}\;\:'\",<.>/?\«\»]+\ *"
 
 
 class RunnerRecovery(runner.Runner):
     tokenizer: T5TokenizerFast
     model: AutoModelForSeq2SeqLM
     device: torch.device
+    neural_preprocess: bool = True
 
-    def __new__(cls) -> Tuple[InferStatus, Optional[runner.Runner]]:
+    def __new__(
+        cls, neural_preprocess: bool
+    ) -> Tuple[InferStatus, Optional[runner.Runner]]:
+        cls.neural_preprocess = neural_preprocess
         if torch.cuda.is_available():
             cls.device = torch.device("cuda")
         else:
@@ -51,17 +55,16 @@ class RunnerRecovery(runner.Runner):
             corrected_tokens.append(stem_l)
         return " ".join(corrected_tokens)
 
-
     def infer(self, data, question) -> Tuple[InferStatus, List[Data]]:
         final_status = InferStatus.status_ok
 
         # загружаем русский язык для NLTK
-        nltk.download('punkt', quiet=True)
-        nltk.download('averaged_perceptron_tagger', quiet=True)
-        nltk.download('tagsets', quiet=True)
-        nltk.download('words', quiet=True)
-        nltk.download('maxent_ne_chunker', quiet=True)
-        nltk.download('stopwords', quiet=True)
+        nltk.download("punkt")
+        nltk.download("averaged_perceptron_tagger")
+        nltk.download("tagsets")
+        nltk.download("words")
+        nltk.download("maxent_ne_chunker")
+        nltk.download("stopwords")
         self.stemmer = RussianStemmer()
         big_input = len(data) > MAX_INPUT
         corrected = []
@@ -70,20 +73,26 @@ class RunnerRecovery(runner.Runner):
             corrected.append(punctuation_corrected)
 
         out = []
-        if big_input:
-            print("Big input, use nltk preprocessing")
+        if self.neural_preprocess:
+            print("Using urukhan preprocessing")
+            final_status, out = self._correct_spelling(corrected)
+        else:
+            print("Using nltk preprocessing")
             for i in range(0, len(corrected)):
                 out.append(self._preprocess_nltk(corrected[i]))
-        else:
-            print("Use urukhan preprocessing")
-            final_status, out = self._correct_spelling(corrected)
 
         for i in range(0, len(data)):
             data[i].corrected = self._correct_punctuation(out[i])
 
+        for elem in data.copy():
+            if len(elem.corrected) == 0 or (len(elem.corrected) == 1 and elem.corrected == ' '):
+                data.remove(elem)
+
         return [final_status, data]
 
-    def _correct_spelling(self, input_sequences: List[str]) -> Tuple[InferStatus, Optional[List[str]]]:
+    def _correct_spelling(
+        self, input_sequences: List[str]
+    ) -> Tuple[InferStatus, Optional[List[str]]]:
         # Prepare input
         try:
             encoded = self.tokenizer(
@@ -111,8 +120,20 @@ class RunnerRecovery(runner.Runner):
     def _correct_punctuation(self, input_phrase) -> str:
         try:
             if input_phrase:
+                input_phrase = self._deEmojify(input_phrase)
                 input_phrase = re.sub(PATTERN, " ", input_phrase)
                 input_phrase = re.sub(" +", " ", input_phrase)
         except Exception as exc:
             print(f"ERROR: recovery runner correction punctuation failed: {exc}")
         return input_phrase
+
+    def _deEmojify(self, phrase):
+        regrex_pattern = re.compile(pattern="["
+                                            u"\U00000000-\U00000009"
+                                            u"\U0000000B-\U0000001F"
+                                            u"\U00000080-\U00000400"
+                                            u"\U00000402-\U0000040F"
+                                            u"\U00000450-\U00000450"
+                                            u"\U00000452-\U0010FFFF"
+                                            "]+", flags=re.UNICODE)
+        return regrex_pattern.sub(r'', phrase)

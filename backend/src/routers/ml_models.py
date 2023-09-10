@@ -36,16 +36,22 @@ def post_sentiment(text: SentimentRequest) -> SentimentResult:
     return SentimentResult(label=res.label, score=res.score)
 
 
-@models_router.post("/infer/{sense}")
-def post_infer(_input: InferRequest, sense: str) -> Themes:
+@models_router.post("/infer")
+def post_infer(_input: InferRequest) -> Themes:
     infer_res: List[Data] = []
 
     _input = _input.model_dump()
 
     class Infer:
         def get_redirect_url(self, _input):
-            core = Core(float(sense))
+            core = Core(sense=_input["sense"], preprocess=_input["neural_preprocess"])
             print("Waiting for infer request")
+
+            # Since infer is untested with these params.
+            # Removing them just in case
+            _input.pop("sense", None)
+            _input.pop("neural_preprocess", None)
+
             status, data = core.infer(_input)
             if status is InferStatus.status_ok:
                 for answer in data:
@@ -71,7 +77,6 @@ def post_infer(_input: InferRequest, sense: str) -> Themes:
                 answers=answers,
             )
             for theme, answers in answers["positive"].items()
-            
         ],
         negative=[
             InferInputAnswer(

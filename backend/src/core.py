@@ -15,16 +15,18 @@ class Core:
     runner_cluster: Runner = None
     runner_sentiment: Runner = None
 
-    def __init__(self, sense) -> None:
+    def __init__(self, sense: int, preprocess: bool) -> None:
         if self._initialized:
             return
+        self.preprocess = preprocess
+        self.sense = sense
         print("Core initialization")
         # TODO: db init
         self._init_runners(sense)
         self._initialized = not self._initialized
 
     def _init_runners(self, sense) -> None:
-        status, runner = recovery.RunnerRecovery()
+        status, runner = recovery.RunnerRecovery(neural_preprocess=self.preprocess)
         if status is InferStatus.status_ok:
             self.runner_recovery = runner
         else:
