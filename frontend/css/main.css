@@ -1,7 +1,8 @@
 
 html {
-  height: 100%;
-  background: radial-gradient(ellipse at bottom, #d9ebff 0%, #4a5dbc 1000%);
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #d9ebff 0%, #4a5dbc 1000%);
+    font-family: "lato", sans-serif;
 }
 
 body {
@@ -68,4 +69,10 @@ h1 {
 
 .word-cloud:hover {
     transform: scale(1.3, 1.3);
+}
+
+.question {
+    font-size: 15pt;
+    font-weight: bold;
+    font-family: "lato", sans-serif;
 }

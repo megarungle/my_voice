@@ -60,6 +60,8 @@ function createProgressBar() {
 function logFile(event) {
   let str = event.target.result;
   let json = JSON.parse(str);
+  let question = document.getElementById('question');
+  question.innerHTML = json['question'];
 
   let sense = document.querySelectorAll("#sensitivity")[0].value;
   let checkbox = document.querySelectorAll("#neural-net-preprocess");
