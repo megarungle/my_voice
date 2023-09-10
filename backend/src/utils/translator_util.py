@@ -1,3 +1,5 @@
+"""Module for translating text"""
+
 import re
 from typing import List
 
@@ -6,9 +8,12 @@ import argostranslate.translate
 
 from src.structs import Data
 
-PATTERN = '^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-\'\"\:\;\=\<\>]+$'
+# TODO: Convert this to r'' type of string
+ENG_SYMBOLS_PATTERN = "^[a-zA-Z0-9$@$!%*?&=#^-_., +\(\[\{\}\]\)\|\-'\"\:\;\=\<\>]+$"
+
 
 def translate_question_if_needed(question: str) -> str:
+    """Translates question to russian if it's english"""
     try:
         if is_eng(question):
             question = translate_en_to_ru(question)
@@ -18,6 +23,7 @@ def translate_question_if_needed(question: str) -> str:
 
 
 def translate_data_if_needed(data: List[Data]) -> List[Data]:
+    """Translates data answers to russian if multiple english words detected"""
     try:
         eng_answers_counter = 0
         for answer in data:
@@ -34,10 +40,11 @@ def translate_data_if_needed(data: List[Data]) -> List[Data]:
 
 
 def is_eng(string: str):
-    return bool(re.fullmatch(PATTERN, string))
+    return bool(re.fullmatch(ENG_SYMBOLS_PATTERN, string))
 
 
 def translate_en_to_ru(string: str):
+    """Translate english to russian"""
     from_code = "en"
     to_code = "ru"
 

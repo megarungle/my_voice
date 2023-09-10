@@ -48,7 +48,7 @@ python main.py
 ```bash
 cd backend
 pip install -r requirements.txt
-python views.py
+python example_infer.py
 ```
 
 ## Деплой

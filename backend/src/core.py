@@ -15,7 +15,7 @@ class Core:
     runner_cluster: Runner = None
     runner_sentiment: Runner = None
 
-    def __init__(self, sense: int, preprocess: bool) -> None:
+    def __init__(self, sense: int = 80, preprocess: bool = True) -> None:
         if self._initialized:
             return
         self.preprocess = preprocess
