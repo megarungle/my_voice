@@ -7,3 +7,6 @@ torch
 torchvision 
 torchaudio
 argostranslate
+python-Levenshtein
+fuzzywuzzy
+nltk
